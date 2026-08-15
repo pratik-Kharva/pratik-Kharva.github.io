@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>For My Diyu ❤️</title>
+
+  <style>
+    /* =====================================================
+       BASE
+    ===================================================== */
+
+    :root {
+      --h: 330;                       /* accent hue — changes per chapter */
+      --accent: hsl(var(--h) 95% 66%);
+      --accent-soft: hsl(var(--h) 95% 66% / 0.18);
+      --ink: #f6e9f4;
+      --muted: #bda3c4;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      overflow: hidden;
+      background: #06000c;
+      color: var(--ink);
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+
+    /* =====================================================
+       BACKGROUND
+    ===================================================== */
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background: linear-gradient(150deg, #06000c, #150022 55%, #07000f);
+    }
+
+    .blob {
+      position: absolute;
+      width: 55vmax;
+      height: 55vmax;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.5;
+      transition: background 1s ease;
+    }
+
+    .blob.one {
+      top: -18vmax;
+      left: -12vmax;
+      background: hsl(var(--h) 90% 55% / 0.45);
+      animation: drift 16s ease-in-out infinite;
+    }
+
+    .blob.two {
+      bottom: -20vmax;
+      right: -14vmax;
+      background: hsl(calc(var(--h) - 60) 90% 55% / 0.4);
+      animation: drift 20s ease-in-out infinite reverse;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%      { transform: translate(6vmax, 4vmax) scale(1.12); }
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: #fff;
+      animation: twinkle 2.4s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.1;  transform: scale(0.5); }
+      to   { opacity: 0.95; transform: scale(1.6); }
+    }
+
+
+    /* =====================================================
+       PROGRESS + DOTS
+    ===================================================== */
+
+    .progress {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 3px;
+      z-index: 40;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #fff);
+      box-shadow: 0 0 14px var(--accent);
+      transition: width 0.45s cubic-bezier(.4, 1.4, .5, 1);
+    }
+
+    .dots {
+      position: fixed;
+      bottom: 14px;
+      left: 0;
+      width: 100%;
+      z-index: 40;
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      pointer-events: auto;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.22);
+      transition: 0.35s;
+    }
+
+    .dot.on {
+      width: 22px;
+      border-radius: 6px;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+
+    /* =====================================================
+       CARD
+    ===================================================== */
+
+    .stage {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px 42px;
+      perspective: 1100px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 560px;
+      max-height: 88vh;
+      overflow-y: auto;
+      text-align: center;
+      padding: 34px 26px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow:
+        0 30px 90px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      transform-style: preserve-3d;
+      transition: transform 0.25s ease-out;
+      animation: cardIn 1s cubic-bezier(.2, .9, .3, 1.2);
+    }
+
+    .card::-webkit-scrollbar { width: 0; }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(50px) scale(0.9); }
+      to   { opacity: 1; transform: none; }
+    }
+
+
+    /* =====================================================
+       SCREENS + STAGGER
+    ===================================================== */
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .screen.active > * {
+      animation: rise 0.55s cubic-bezier(.2, .9, .3, 1.15) both;
+    }
+
+    .screen.active > *:nth-child(1) { animation-delay: 0.02s; }
+    .screen.active > *:nth-child(2) { animation-delay: 0.09s; }
+    .screen.active > *:nth-child(3) { animation-delay: 0.16s; }
+    .screen.active > *:nth-child(4) { animation-delay: 0.23s; }
+    .screen.active > *:nth-child(5) { animation-delay: 0.30s; }
+    .screen.active > *:nth-child(6) { animation-delay: 0.37s; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(22px) scale(0.96); }
+      to   { opacity: 1; transform: none; }
+    }
+
+
+    /* =====================================================
+       TEXT
+    ===================================================== */
+
+    .chip {
+      display: inline-block;
+      padding: 6px 15px;
+      border-radius: 40px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: hsl(var(--h) 90% 85%);
+      background: var(--accent-soft);
+      border: 1px solid hsl(var(--h) 90% 66% / 0.35);
+    }
+
+    h1 {
+      margin-top: 14px;
+      font-size: 42px;
+      line-height: 1.15;
+      background: linear-gradient(100deg, var(--accent), #fff 45%, var(--accent));
+      background-size: 250% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 5s linear infinite;
+    }
+
+    @keyframes shimmer {
+      to { background-position: 250% 0; }
+    }
+
+    h2 {
+      margin-top: 14px;
+      font-size: 27px;
+      line-height: 1.3;
+      color: #fff;
+    }
+
+    p {
+      margin-top: 14px;
+      font-size: 16.5px;
+      line-height: 1.65;
+      color: #e2d2e4;
+    }
+
+    .hl {
+      color: hsl(var(--h) 100% 76%);
+      font-weight: 700;
+    }
+
+    .tiny {
+      margin-top: 18px;
+      font-size: 11.5px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+
+    /* =====================================================
+       ORB ICON
+    ===================================================== */
+
+    .orb {
+      width: 116px;
+      height: 116px;
+      margin: 22px auto 4px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, hsl(var(--h) 90% 60% / .35), transparent 65%);
+      border: 1px solid hsl(var(--h) 90% 70% / 0.3);
+      box-shadow: 0 0 45px hsl(var(--h) 90% 60% / 0.35);
+    }
+
+    .orb span {
+      font-size: 56px;
+      animation: float 3.2s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0)     rotate(-3deg); }
+      50%      { transform: translateY(-11px) rotate(3deg); }
+    }
+
+    .beat {
+      display: inline-block;
+      font-size: 76px;
+      animation: beat 1.15s infinite;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      45%      { transform: scale(1.2); }
+    }
+
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
+
+    .btn {
+      margin-top: 22px;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      color: #fff;
+      font: 600 15.5px/1 inherit;
+      font-family: inherit;
+      background: linear-gradient(135deg, var(--accent), hsl(calc(var(--h) + 25) 95% 72%));
+      box-shadow: 0 10px 30px hsl(var(--h) 90% 55% / 0.4);
+      transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 16px 40px hsl(var(--h) 90% 55% / 0.6);
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn:disabled { opacity: 0.5; cursor: default; }
+
+    .ghost {
+      padding: 11px 16px;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: none;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .ghost:hover {
+      transform: none;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: none;
+      color: #fff;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .nav .ghost { margin-top: 22px; }
+
+
+    /* =====================================================
+       SECRET REVEAL
+    ===================================================== */
+
+    .secret {
+      display: block;
+      width: 100%;
+      margin-top: 18px;
+      padding: 15px 18px;
+      border-radius: 18px;
+      cursor: pointer;
+      font: 500 15px/1.55 inherit;
+      font-family: inherit;
+      color: hsl(var(--h) 80% 88%);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed hsl(var(--h) 90% 70% / 0.45);
+      transition: 0.3s;
+    }
+
+    .secret:hover {
+      background: var(--accent-soft);
+      transform: translateY(-2px);
+    }
+
+    .secret.open {
+      cursor: default;
+      border-style: solid;
+      background: var(--accent-soft);
+      animation: pop 0.5s cubic-bezier(.2, 1.6, .4, 1);
+    }
+
+    @keyframes pop {
+      0%   { transform: scale(0.9)  rotate(-1.5deg); }
+      60%  { transform: scale(1.04) rotate(1deg); }
+      100% { transform: none; }
+    }
+
+
+    /* =====================================================
+       GIFT BOX (intro)
+    ===================================================== */
+
+    .gift {
+      position: relative;
+      width: 130px;
+      height: 105px;
+      margin: 28px auto 10px;
+      cursor: pointer;
+      animation: nudge 2.2s ease-in-out infinite;
+    }
+
+    @keyframes nudge {
+      0%, 82%, 100% { transform: rotate(0) scale(1); }
+      86%           { transform: rotate(-6deg) scale(1.05); }
+      92%           { transform: rotate(6deg)  scale(1.05); }
+    }
+
+    .gift-box {
+      position: absolute;
+      bottom: 0;
+      width: 130px;
+      height: 78px;
+      border-radius: 8px 8px 12px 12px;
+      background: linear-gradient(160deg, hsl(var(--h) 90% 68%), hsl(var(--h) 90% 52%));
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .gift-box::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 16px;
+      height: 100%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    .gift-lid {
+      position: absolute;
+      top: 8px;
+      left: -6px;
+      width: 142px;
+      height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(160deg, #fff, hsl(var(--h) 80% 88%));
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+      transition: transform 0.75s cubic-bezier(.3, 1.5, .5, 1), opacity 0.75s;
+    }
+
+    .gift-bow {
+      position: absolute;
+      top: -18px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 30px;
+      transition: transform 0.75s, opacity 0.75s;
+    }
+
+    .gift.open { animation: none; cursor: default; }
+    .gift.open .gift-lid { transform: translateY(-120px) rotate(-24deg); opacity: 0; }
+    .gift.open .gift-bow { transform: translateY(-160px) rotate(30deg); opacity: 0; }
+
+
+    /* =====================================================
+       COUNTERS (recap)
+    ===================================================== */
+
+    .counters {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .count {
+      flex: 1;
+      padding: 16px 8px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .count b {
+      display: block;
+      font-size: 32px;
+      color: hsl(var(--h) 100% 78%);
+      text-shadow: 0 0 22px hsl(var(--h) 90% 60% / 0.6);
+    }
+
+    .count i {
+      font-size: 11px;
+      font-style: normal;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .mini {
+      margin-top: 22px;
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #e6d7e6;
+    }
+
+    .mini div {
+      padding: 7px 0 7px 20px;
+      position: relative;
+      border-left: 2px solid hsl(var(--h) 90% 60% / 0.3);
+    }
+
+    .mini div::before {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: 12px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .mini div:last-child { border-left-color: transparent; }
+
+    .mini b {
+      color: var(--muted);
+      font-size: 11.5px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+
+    /* =====================================================
+       CAKE
+    ===================================================== */
+
+    /* top margin clears the candles + flames sticking out above the cake */
+    .cake-wrap { margin: 94px 0 6px; }
+
+    .cake {
+      position: relative;
+      width: 175px;
+      height: 96px;
+      margin: 0 auto;
+      background: linear-gradient(hsl(var(--h) 90% 76%), hsl(var(--h) 85% 62%));
+      border-radius: 14px 14px 18px 18px;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+    }
+
+    .cake::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: -16px;
+      width: 175px;
+      height: 34px;
+      border-radius: 50%;
+      background: #fff3f9;
+    }
+
+    .cake::after {
+      content: "♡ ♡ ♡";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 18px;
+      font-size: 17px;
+      color: hsl(var(--h) 90% 90%);
+    }
+
+    .candle {
+      position: absolute;
+      top: -54px;
+      width: 12px;
+      height: 42px;
+      border-radius: 5px;
+      background: repeating-linear-gradient(45deg,
+        #ffd166 0 5px, hsl(var(--h) 90% 78%) 5px 10px);
+    }
+
+    .candle:nth-child(1) { left: 44px; }
+    .candle:nth-child(2) { left: 82px; }
+    .candle:nth-child(3) { left: 120px; }
+
+    .flame {
+      position: absolute;
+      top: -22px;
+      left: -1px;
+      width: 15px;
+      height: 22px;
+      background: #ffb703;
+      box-shadow: 0 0 18px #ff9d00;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      animation: flame 0.55s infinite alternate;
+      transition: transform 0.4s, opacity 0.4s;
+    }
+
+    @keyframes flame {
+      from { transform: rotate(-45deg) scale(0.8); }
+      to   { transform: rotate(-45deg) scale(1.15); }
+    }
+
+    .flame.out {
+      animation: none;
+      opacity: 0;
+      transform: rotate(-45deg) translateY(-26px) scale(0.3);
+    }
+
+
+    /* =====================================================
+       TYPED NOTE
+    ===================================================== */
+
+    .note {
+      margin-top: 16px;
+      padding: 20px;
+      min-height: 200px;
+      text-align: left;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      font-size: 15.5px;
+      line-height: 1.6;
+      white-space: pre-line;
+      color: #f2e6f2;
+    }
+
+    /* the note is the tallest screen — keep it on one screenful */
+    #screenNote .beat { font-size: 52px; }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 17px;
+      margin-left: 2px;
+      vertical-align: middle;
+      background: var(--accent);
+      animation: blink 0.7s infinite;
+    }
+
+    .cursor.done { display: none; }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+
+    /* =====================================================
+       FLOATERS / CONFETTI / TOAST
+    ===================================================== */
+
+    .floater {
+      position: fixed;
+      bottom: -40px;
+      z-index: 5;
+      pointer-events: none;
+      animation: rise-up 6s linear forwards;
+    }
+
+    @keyframes rise-up {
+      to { transform: translateY(-112vh) rotate(360deg); opacity: 0; }
+    }
+
+    .confetti {
+      position: fixed;
+      top: -30px;
+      z-index: 35;
+      pointer-events: none;
+      animation: fall 3.6s linear forwards;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(112vh) rotate(720deg); opacity: 0; }
+    }
+
+    .spark {
+      position: fixed;
+      z-index: 45;
+      pointer-events: none;
+      animation: spark 0.9s ease-out forwards;
+    }
+
+    @keyframes spark {
+      to { transform: translate(var(--x), var(--y)) scale(0.2); opacity: 0; }
+    }
+
+    .toast {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      z-index: 60;
+      max-width: 86vw;
+      padding: 12px 20px;
+      border-radius: 40px;
+      font-size: 14.5px;
+      color: #fff;
+      background: hsl(var(--h) 60% 20% / 0.85);
+      border: 1px solid hsl(var(--h) 90% 70% / 0.4);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+      transform: translate(-50%, -26px);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.4s cubic-bezier(.2, 1.5, .4, 1);
+    }
+
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+    .surprise-btn {
+      position: fixed;
+      right: 16px;
+      bottom: 34px;
+      z-index: 50;
+      width: 50px;
+      height: 50px;
+      padding: 0;
+      font-size: 22px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 1px solid hsl(var(--h) 90% 70% / 0.4);
+      background: hsl(var(--h) 60% 22% / 0.7);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 26px hsl(var(--h) 90% 55% / 0.45);
+      transition: transform 0.25s;
+      animation: nudge 3.5s ease-in-out infinite;
+    }
+
+    .surprise-btn:hover { transform: scale(1.12); }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 600px) {
+      .card { padding: 28px 18px; max-height: 86vh; }
+      h1 { font-size: 32px; }
+      h2 { font-size: 23px; }
+      p  { font-size: 15px; }
+      .orb { width: 96px; height: 96px; }
+      .orb span { font-size: 46px; }
+      .beat { font-size: 62px; }
+      .count b { font-size: 26px; }
+      .cake { transform: scale(0.9); }
+      .note { font-size: 15px; min-height: 200px; }
+    }
+
+
+    /* =====================================================
+       REDUCED MOTION
+    ===================================================== */
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <!-- BACKGROUND -->
+  <div class="bg" id="bg">
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+
+  <div class="stage">
+    <div class="card" id="card">
+
+
+      <!-- 0 — INTRO ------------------------------------ -->
+      <section class="screen active" data-hue="330" data-nav="off">
+
+        <div class="chip">Something small, for you</div>
+
+        <div class="gift" id="gift" onclick="openGift()">
+          <div class="gift-box"></div>
+          <div class="gift-lid"></div>
+          <div class="gift-bow">🎀</div>
+        </div>
+
+        <h1>Hey Diyu 👀</h1>
+
+        <p>
+          I didn't want to send just a
+          <span class="hl">"Happy Birthday"</span>.
+          <br>
+          So... tap the box. 🎁
+        </p>
+
+        <div class="tiny">9 chapters · 27 days · 1 story</div>
+
+      </section>
+
+
+      <!-- 1 -------------------------------------------- -->
+      <section class="screen" data-hue="330" data-next="And then... 💊">
+        <div class="chip">24 May 2026 Sunday</div>
+        <div class="orb"><span>📱</span></div>
+        <h2>One message. That's all it took.</h2>
+        <p>Out of all of Instagram — somehow, you and me.</p>
+        <!-- <button class="secret" onclick="reveal(this)"
+          data-secret="Secret: I re-read that first chat way more than I'll ever admit. 🙈">
+          🔒 Tap for a secret
+        </button> -->
+      </section>
+
+
+      <!-- 2 -------------------------------------------- -->
+      <section class="screen" data-hue="285" data-next="Next day... ☕">
+        <div class="chip">30 May 2026 Saturday</div>
+        <div class="orb"><span>💊</span></div>
+        <h2>Meet on Medical shop</h2>
+        <p>A few minutes at the medical. I remember every one of them.</p>
+        <!-- <button class="secret" onclick="reveal(this)"
+          data-secret="Secret: I was nervous the whole time. I hid it well. 😅">
+          🔒 Tap for a secret
+        </button> -->
+      </section>
+
+
+      <!-- 3 -------------------------------------------- -->
+      <section class="screen" data-hue="255" data-next="That evening... 🌊">
+        <div class="chip">31 May 2026 Sunday</div>
+        <div class="orb"><span>☕</span></div>
+        <h2>Santushti Shakes 🥤, EME Temple &amp; Sursagar Gajraj Cafe</h2>
+        <p>Standing next to you, hands folded, Fatehgunj quiet around us.</p>
+        <p>Discover new temple with you and zero reason to go home.</p>
+        <!-- <button class="secret" onclick="reveal(this)"
+          data-secret="Secret: I forgot what I asked for — I think I'd already got it. ❤️">
+          🔒 Tap for a secret
+        </button> -->
+      </section>
+
+
+      <!-- 4 -------------------------------------------- -->
+      <!-- <section class="screen" data-hue="200" data-next="Then the nights... 🌙">
+        <div class="chip">31 May </div>
+        <div class="orb"><span>🌊</span></div>
+        <h2>Sursagar &amp; Gajraj Cafe</h2>
+        <p>Lights on the water, coffee, and zero reason to go home.</p>
+        <button class="secret" onclick="reveal(this)"
+          data-secret="Secret: that's the evening I stopped checking the time. ☕">
+          🔒 Tap for a secret
+        </button>
+      </section> -->
+
+
+      <!-- 5 -------------------------------------------- -->
+      <section class="screen" data-hue="265" data-next="Again the next day... 🚉">
+        <div class="chip">05 June Friday</div>
+        <div class="orb"><span>🌙</span></div>
+        <h2>"Just for See Face & Time pass" 😄</h2>
+        <p>You picked 🛵 me up from my parking. No plan, no destination.</p>
+        <!-- <button class="secret" onclick="reveal(this)"
+          data-secret="Secret: best 'no plan' of my life. 🛵">
+          🔒 Tap for a secret
+        </button> -->
+      </section>
+
+
+      <!-- 6 -------------------------------------------- -->
+      <section class="screen" data-hue="150" data-next="Now the best one... 🤗">
+        <div class="chip">06 June Sunday</div>
+        <div class="orb"><span>🚉</span></div>
+        <h2>Pratapnagar Station &amp; Sayaji Garden</h2>
+        <p>We met at Sayaji Garden and talked about so many important things, but what I remember most is you putting sunscreen on my face—it was such a nice moment. ❤️</p>
+        <!-- <button class="secret" onclick="reveal(this)"
+          data-secret="Secret: a habit I'm never breaking. 🌳">
+          🔒 Tap for a secret
+        </button> -->
+      </section>
+
+
+      <!-- 7 -------------------------------------------- -->
+      <section class="screen" data-hue="340" data-next="Food day 🍜">
+        <div class="chip">07 June Sunday</div>
+        <div class="orb"><span>🤗</span></div>
+        <h2>Our first hug ❤️</h2>
+        <p>I came to your home for katha prasad. I left with a date I'll never need a reminder for.</p>
+        <!-- <button class="secret" onclick="reveal(this)"
+          data-secret="Secret: small moment. Changed absolutely everything. 💗">
+          🔒 Tap for a secret
+        </button> -->
+      </section>
+
+
+      <!-- 8 -------------------------------------------- -->
+      <section class="screen" data-hue="30" data-next="One more... ✨">
+        <div class="chip">12 June Friday</div>
+        <div class="orb"><span>🍜</span></div>
+        <h2>Maggi + gulab jamun 🍮 &amp; Kayak's Cafe &amp; Tapovan Temple</h2> 
+        <p>Take a day off just for you, visit Kayak’s Café, create an unforgettable memory and a once-in-a-lifetime moment, and discover a new temple together—Tapovan Temple. ❤️</p>
+        <!-- <button class="secret" onclick="reveal(this)"
+          data-secret="Secret: still the greatest food combo ever invented. 😄">
+          🔒 Tap for a secret
+        </button> -->
+      </section>
+
+
+      <!-- 9 -------------------------------------------- -->
+      <section class="screen" data-hue="310" data-next="See it all together 💫">
+        <div class="chip">20 June Sunday</div>
+        <div class="orb"><span>✨</span></div>
+        <h2>Navapura Police Station opp, Yogini</h2>
+        <p>I came just to meet you, even when you said no, waited opposite Navapura Police Station, and brought chocolate to share with you because I knew these were your difficult days.</p>
+        <p>Your world and my world stopped being two separate things.</p>
+        <!-- <button class="secret" onclick="reveal(this)"
+          data-secret="Secret: that's when I knew this wasn't 'random meetings' anymore. ❤️">
+          🔒 Tap for a secret
+        </button> -->
+      </section>
+
+
+      <!-- 10 — RECAP ----------------------------------- -->
+      <section class="screen" id="screenRecap" data-hue="320" data-next="Now... it's your day 🎂">
+
+        <div class="chip">Our story so far</div>
+
+        <div class="counters">
+          <div class="count"><b data-to="27">0</b><i>Days</i></div>
+          <div class="count"><b data-to="9">0</b><i>Chapters</i></div>
+          <div class="count"><b data-to="1">0</b><i>Story</i></div>
+        </div>
+
+        <div class="mini">
+          <div><b>24 May</b> · 📱 One Instagram message</div>
+          <div><b>30 May</b> · 💊 The medical — first look</div>
+          <div><b>31 May</b> · 🛕 EME Temple · 🌊 Sursagar · ☕ Gajraj</div>
+          <div><b>05 Jun</b> · 🌙 The "time pass" night ride</div>
+          <div><b>06 Jun</b> · 🚉 Pratapnagar · 🌳 Kamati Baug</div>
+          <div><b>07 Jun</b> · 🤗 Prasad... and our first hug</div>
+          <div><b>12 Jun</b> · 🍜 Maggi · ☕ Kayak's · 🛕 Tapovan</div>
+          <div><b>20 Jun</b> · ✨ Navapura, with Yogini</div>
+        </div>
+
+      </section>
+
+
+      <!-- 11 — CAKE ------------------------------------ -->
+      <section class="screen" id="screenCake" data-hue="335" data-nav="off">
+
+        <div class="chip">Today is all about you</div>
+
+        <div class="cake-wrap">
+          <div class="cake" onclick="blowCandles()">
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+          </div>
+        </div>
+
+        <h1>Happy Birthday, Diyu ❤️</h1>  
+
+        <p>Close your eyes. Make a wish. <br>Then blow them out. ✨</p>
+
+        <button class="btn" id="wishBtn" onclick="blowCandles()">Blow the candles 🕯️</button>
+
+      </section>
+
+
+      <!-- 12 — NOTE ------------------------------------ -->
+      <section class="screen" id="screenNote" data-hue="325" data-nav="off">
+
+        <div class="beat">💖</div>
+
+        <h2>From my heart...</h2>
+
+        <div class="note"><span id="noteText"></span><span class="cursor" id="noteCursor"></span></div>
+
+        <div class="nav">
+          <button class="btn ghost" id="skipBtn" onclick="skipTyping()">Skip ⏩</button>
+          <button class="btn" id="noteNext" onclick="next()" style="display:none">One last thing ❤️</button>
+        </div>
+
+      </section>
+
+
+      <!-- 13 — FINAL ----------------------------------- -->
+      <section class="screen" id="screenFinal" data-hue="330" data-nav="off">
+
+        <div class="beat">💗</div>
+
+        <h1>Happy Birthday 🎂</h1>
+
+        <p class="final">
+          More smiles, more wins, more silly Maggi days.
+          <br>
+          And many more dates for
+          <span class="hl">our little list</span>. 💕
+        </p>
+
+        <!-- <button class="secret" onclick="reveal(this, true)"
+          data-secret="P.S. Chapter 10 is already loading... 😉❤️">
+          🎁 One more surprise
+        </button> -->
+
+        <div class="nav">
+          <button class="btn ghost" onclick="replay()">Read it again ↺</button>
+        </div>
+
+      </section>
+
+
+    </div>
+  </div>
+
+
+  <!-- SHARED NAV -->
+  <div class="nav" id="nav" style="display:none"></div>
+
+  <div class="dots" id="dots"></div>
+
+  <div class="toast" id="toast"></div>
+
+  <button class="surprise-btn" onclick="surprise()" title="Tap me">🎁</button>
+
+
+  <script>
+
+    /* =====================================================
+       STARS
+    ===================================================== */
+
+    const bg = document.getElementById("bg");
+
+    for (let i = 0; i < 70; i++) {
+      const s = document.createElement("div");
+      s.className = "star";
+      s.style.left = Math.random() * 100 + "vw";
+      s.style.top = Math.random() * 100 + "vh";
+      s.style.animationDelay = Math.random() * 3 + "s";
+      bg.appendChild(s);
+    }
+
+
+    /* =====================================================
+       NAVIGATION
+    ===================================================== */
+
+    const card = document.getElementById("card");
+    const screens = Array.from(document.querySelectorAll(".screen"));
+    const progressFill = document.getElementById("progressFill");
+    const dotsWrap = document.getElementById("dots");
+    const root = document.documentElement;
+
+    let current = 0;
+
+    /* the shared next/back row lives inside the card, under the screens */
+    const navRow = document.getElementById("nav");
+    navRow.innerHTML =
+      '<button class="btn ghost" onclick="back()">←</button>' +
+      '<button class="btn" id="nextBtn" onclick="next()">Next ✨</button>';
+    card.appendChild(navRow);
+
+    const nextBtn = document.getElementById("nextBtn");
+
+
+    /* dots */
+    screens.forEach((_, i) => {
+      const d = document.createElement("button");
+      d.className = "dot";
+      d.onclick = () => go(i);
+      dotsWrap.appendChild(d);
+    });
+
+    const dots = Array.from(dotsWrap.children);
+
+
+    function go(index) {
+
+      index = Math.max(0, Math.min(screens.length - 1, index));
+      if (index === current) return;
+
+      screens[current].classList.remove("active");
+      current = index;
+
+      const screen = screens[current];
+      screen.classList.add("active");
+
+      /* accent hue shift — every chapter feels different */
+      root.style.setProperty("--h", screen.dataset.hue || 330);
+
+      /* progress + dots */
+      progressFill.style.width = (current / (screens.length - 1)) * 100 + "%";
+      dots.forEach((d, i) => d.classList.toggle("on", i === current));
+
+      /* shared nav */
+      if (screen.dataset.nav === "off") {
+        navRow.style.display = "none";
+      } else {
+        navRow.style.display = "flex";
+        nextBtn.textContent = screen.dataset.next || "Next ✨";
+      }
+
+      card.scrollTop = 0;
+
+      /* per-screen hooks */
+      if (screen.id === "screenRecap") countUp();
+      if (screen.id === "screenNote") startTyping();
+      if (screen.id === "screenFinal") celebrate();
+
+      if (current > 0 && current < 10) burst(innerWidth / 2, innerHeight / 2, 10);
+    }
+
+    function next() { go(current + 1); }
+    function back() { go(current - 1); }
+
+    function replay() {
+      relight();
+      go(0);
+      progressFill.style.width = "0%";
+      document.querySelectorAll(".secret.open").forEach(s => {
+        s.classList.remove("open");
+        s.textContent = s.dataset.label || "🔒 Tap for a secret";
+      });
+    }
+
+    /* initial state (go() early-returns on the screen we're already on) */
+    dots[0].classList.add("on");
+    root.style.setProperty("--h", screens[0].dataset.hue);
+
+
+    /* keyboard + swipe */
+
+    addEventListener("keydown", e => {
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") back();
+    });
+
+    let sx = 0, sy = 0;
+
+    card.addEventListener("touchstart", e => {
+      sx = e.changedTouches[0].clientX;
+      sy = e.changedTouches[0].clientY;
+    }, { passive: true });
+
+    card.addEventListener("touchend", e => {
+      const dx = e.changedTouches[0].clientX - sx;
+      const dy = e.changedTouches[0].clientY - sy;
+      if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      dx < 0 ? next() : back();
+    }, { passive: true });
+
+
+    /* card tilt (pointer only) */
+
+    if (matchMedia("(hover: hover)").matches) {
+      addEventListener("mousemove", e => {
+        const x = (e.clientX / innerWidth - 0.5) * 2;
+        const y = (e.clientY / innerHeight - 0.5) * 2;
+        card.style.transform = `rotateY(${x * 4}deg) rotateX(${-y * 4}deg)`;
+      });
+    }
+
+
+    /* =====================================================
+       GIFT + SECRETS
+    ===================================================== */
+
+    function openGift() {
+      const gift = document.getElementById("gift");
+      if (gift.classList.contains("open")) return;
+      gift.classList.add("open");
+
+      const r = gift.getBoundingClientRect();
+      burst(r.left + r.width / 2, r.top + r.height / 2, 26);
+      confetti(45);
+
+      setTimeout(next, 850);
+    }
+
+
+    function reveal(el, big) {
+      if (el.classList.contains("open")) return;
+
+      el.dataset.label = el.textContent.trim();
+      el.textContent = el.dataset.secret;
+      el.classList.add("open");
+
+      const r = el.getBoundingClientRect();
+      burst(r.left + r.width / 2, r.top + r.height / 2, big ? 30 : 14);
+      if (big) confetti(60);
+    }
+
+
+    /* =====================================================
+       COUNTERS
+    ===================================================== */
+
+    let counted = false;
+
+    function countUp() {
+      if (counted) return;
+      counted = true;
+
+      document.querySelectorAll("#screenRecap .count b").forEach(el => {
+        const to = +el.dataset.to;
+        let n = 0;
+        const step = () => {
+          n += Math.max(1, Math.ceil(to / 22));
+          el.textContent = n >= to ? to : n;
+          if (n < to) requestAnimationFrame(step);
+        };
+        step();
+      });
+    }
+
+
+    /* =====================================================
+       CANDLES
+    ===================================================== */
+
+    let blown = false;
+
+    function blowCandles() {
+      if (blown) return;
+      blown = true;
+
+      const flames = document.querySelectorAll(".flame");
+      flames.forEach((f, i) => setTimeout(() => f.classList.add("out"), i * 260));
+
+      document.getElementById("wishBtn").disabled = true;
+
+      setTimeout(() => {
+        toast("Wish locked in. 🤞✨");
+        celebrate();
+      }, 800);
+
+      setTimeout(next, 2200);
+    }
+
+    function relight() {
+      blown = false;
+      counted = false;
+      document.querySelectorAll(".flame").forEach(f => f.classList.remove("out"));
+      document.getElementById("wishBtn").disabled = false;
+    }
+
+
+    /* =====================================================
+       TYPED NOTE
+    ===================================================== */
+
+    const note = `Diyu ❤️
+
+No long essay today. Just this:
+
+In 27 days you became one of
+my favourite people.
+
+Not because of anything big —
+because of temples, night rides,
+Maggi, and laughing at nothing.
+
+Happy birthday. 🎂
+Be as happy as you make me.`;
+
+    const chars = Array.from(note);
+    let typeTimer = null;
+
+    function startTyping() {
+      const textEl = document.getElementById("noteText");
+      const cursor = document.getElementById("noteCursor");
+      const skip = document.getElementById("skipBtn");
+      const cont = document.getElementById("noteNext");
+
+      clearTimeout(typeTimer);
+      textEl.textContent = "";
+      cursor.classList.remove("done");
+      skip.style.display = "inline-block";
+      cont.style.display = "none";
+
+      let i = 0;
+
+      (function type() {
+        if (i >= chars.length) return endTyping();
+        const c = chars[i++];
+        textEl.textContent += c;
+        typeTimer = setTimeout(type, c === "\n" ? 40 : 22);
+      })();
+    }
+
+    function skipTyping() {
+      clearTimeout(typeTimer);
+      document.getElementById("noteText").textContent = note;
+      endTyping();
+    }
+
+    function endTyping() {
+      document.getElementById("noteCursor").classList.add("done");
+      document.getElementById("skipBtn").style.display = "none";
+      document.getElementById("noteNext").style.display = "inline-block";
+    }
+
+
+    /* =====================================================
+       EFFECTS
+    ===================================================== */
+
+    const HEARTS = ["❤️", "💖", "💕", "💗", "✨", "🎉", "🎂", "🎈", "🥳", "⭐", "🌸"];
+
+    function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+
+
+    /* small particle burst at a point */
+    function burst(x, y, count) {
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement("div");
+        p.className = "spark";
+        p.textContent = pick(HEARTS);
+        p.style.left = x + "px";
+        p.style.top = y + "px";
+        p.style.fontSize = 10 + Math.random() * 18 + "px";
+        p.style.setProperty("--x", (Math.random() - 0.5) * 320 + "px");
+        p.style.setProperty("--y", (Math.random() - 0.5) * 320 + "px");
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 1000);
+      }
+    }
+
+
+    function confetti(count) {
+      for (let i = 0; i < count; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.textContent = pick(HEARTS);
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.fontSize = 12 + Math.random() * 20 + "px";
+        c.style.animationDuration = 2 + Math.random() * 3 + "s";
+        c.style.animationDelay = Math.random() * 1.4 + "s";
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 7000);
+      }
+    }
+
+
+    function celebrate() {
+      confetti(90);
+
+      for (let i = 0; i < 34; i++) {
+        const h = document.createElement("div");
+        h.className = "floater";
+        h.textContent = pick(HEARTS);
+        h.style.left = Math.random() * 100 + "vw";
+        h.style.fontSize = 15 + Math.random() * 24 + "px";
+        h.style.animationDuration = 4 + Math.random() * 4 + "s";
+        h.style.animationDelay = Math.random() * 1.6 + "s";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 10000);
+      }
+    }
+
+
+    /* click anywhere = tiny heart burst */
+    addEventListener("pointerdown", e => burst(e.clientX, e.clientY, 5));
+
+
+    /* gentle background hearts */
+    setInterval(() => {
+      if (document.hidden) return;
+      const h = document.createElement("div");
+      h.className = "floater";
+      h.textContent = Math.random() > 0.5 ? "❤️" : "💕";
+      h.style.left = Math.random() * 100 + "vw";
+      h.style.fontSize = 16 + Math.random() * 16 + "px";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 6500);
+    }, 1800);
+
+
+    /* =====================================================
+       TOAST + SURPRISE BUTTON
+    ===================================================== */
+
+    const toastEl = document.getElementById("toast");
+    let toastTimer = null;
+
+    function toast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2800);
+    }
+
+
+    const LINES = [
+      "Fact: 24th May was Instagram's best work ever. 📱",
+      "Somewhere a plate of Maggi is missing you. 🍜",
+      "You laugh at your own jokes. It's adorable. 😄",
+      "Gulab jamun agrees: you're the sweetest here. 🍮",
+      "Warning — extremely special person detected. ✨",
+      "This button is just a Diyu appreciation machine. 💗",
+      "One message. 27 days. Still can't believe it. ❤️",
+      "Tap again, I've got more. 😉"
+    ];
+
+    let lineIndex = 0;
+
+    function surprise() {
+      toast(LINES[lineIndex % LINES.length]);
+      lineIndex++;
+      confetti(18);
+    }
+
+  </script>
+
+</body>
+
+</html>
