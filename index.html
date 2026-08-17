@@ -37,7 +37,8 @@
       overflow: hidden;
       background: #06000c;
       color: var(--ink);
-      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
       -webkit-font-smoothing: antialiased;
     }
 
@@ -249,6 +250,16 @@
 
     @keyframes shimmer {
       to { background-position: 250% 0; }
+    }
+
+    /* h1 paints its gradient through transparent text, which would make a
+       colour emoji invisible too — this opts emoji back out of the clip */
+    h1 .emoji {
+      -webkit-text-fill-color: initial;
+      color: var(--ink);
+      -webkit-background-clip: initial;
+      background-clip: initial;
+      background: none;
     }
 
     h2 {
@@ -805,7 +816,7 @@
           <div class="gift-bow">🎀</div>
         </div>
 
-        <h1>Hey Diyu 👀</h1>
+        <h1>Hey Diyu&nbsp;<span class="emoji">👀</span></h1>
 
         <p>
           A plain <span class="hl">"Happy Birthday"</span> felt far too small for you.
@@ -941,7 +952,7 @@
           </div>
         </div>
 
-        <h1>Happy Birthday, Diyu ❤️</h1>
+        <h1>Happy Birthday, Diyu&nbsp;<span class="emoji">❤️</span></h1>
 
         <p>
           It's finally your day.
@@ -999,7 +1010,7 @@
 
         <div class="beat">💗</div>
 
-        <h1>Happy Birthday, Diyu 🎂</h1>
+        <h1>Happy Birthday, Diyu&nbsp;<span class="emoji">🎂</span></h1>
 
         <p>
           Here's to more smiles, more wins, and more silly no-plan days.
