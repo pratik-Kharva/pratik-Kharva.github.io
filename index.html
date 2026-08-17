@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#06000c">
+  <meta name="description" content="A little birthday story for Diyu — 8 chapters, 27 days, 1 story.">
 
   <title>For My Diyu ❤️</title>
 
@@ -324,8 +326,10 @@
       border-radius: 40px;
       cursor: pointer;
       color: #fff;
-      font: 600 15.5px/1 inherit;
       font-family: inherit;
+      font-size: 15.5px;
+      font-weight: 600;
+      line-height: 1;
       background: linear-gradient(135deg, var(--accent), hsl(calc(var(--h) + 25) 95% 72%));
       box-shadow: 0 10px 30px hsl(var(--h) 90% 55% / 0.4);
       transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
@@ -367,44 +371,6 @@
     }
 
     .nav .ghost { margin-top: 22px; }
-
-
-    /* =====================================================
-       SECRET REVEAL
-    ===================================================== */
-
-    .secret {
-      display: block;
-      width: 100%;
-      margin-top: 18px;
-      padding: 15px 18px;
-      border-radius: 18px;
-      cursor: pointer;
-      font: 500 15px/1.55 inherit;
-      font-family: inherit;
-      color: hsl(var(--h) 80% 88%);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px dashed hsl(var(--h) 90% 70% / 0.45);
-      transition: 0.3s;
-    }
-
-    .secret:hover {
-      background: var(--accent-soft);
-      transform: translateY(-2px);
-    }
-
-    .secret.open {
-      cursor: default;
-      border-style: solid;
-      background: var(--accent-soft);
-      animation: pop 0.5s cubic-bezier(.2, 1.6, .4, 1);
-    }
-
-    @keyframes pop {
-      0%   { transform: scale(0.9)  rotate(-1.5deg); }
-      60%  { transform: scale(1.04) rotate(1deg); }
-      100% { transform: none; }
-    }
 
 
     /* =====================================================
@@ -627,10 +593,12 @@
        TYPED NOTE
     ===================================================== */
 
+    /* min-height reserves room for the finished note, so the card
+       doesn't grow line by line while the text is being typed */
     .note {
       margin-top: 16px;
       padding: 20px;
-      min-height: 200px;
+      min-height: 330px;
       text-align: left;
       border-radius: 20px;
       background: rgba(255, 255, 255, 0.045);
@@ -756,7 +724,7 @@
       .beat { font-size: 62px; }
       .count b { font-size: 26px; }
       .cake { transform: scale(0.9); }
-      .note { font-size: 15px; min-height: 200px; }
+      .note { font-size: 15px; min-height: 300px; }
     }
 
 
@@ -793,7 +761,7 @@
     <div class="card" id="card">
 
 
-      <!-- 0 — INTRO ------------------------------------ -->
+      <!-- INTRO ---------------------------------------- -->
       <section class="screen active" data-hue="330" data-nav="off">
 
         <div class="chip">Something small, for you</div>
@@ -807,162 +775,117 @@
         <h1>Hey Diyu 👀</h1>
 
         <p>
-          I didn't want to send just a
+          I didn't want to send you just a plain
           <span class="hl">"Happy Birthday"</span>.
           <br>
           So... tap the box. 🎁
         </p>
 
-        <div class="tiny">9 chapters · 27 days · 1 story</div>
+        <div class="tiny">8 chapters · 27 days · 1 story</div>
 
       </section>
 
 
-      <!-- 1 -------------------------------------------- -->
+      <!-- CHAPTER 1 ------------------------------------ -->
       <section class="screen" data-hue="330" data-next="And then... 💊">
-        <div class="chip">24 May 2026 Sunday</div>
+        <div class="chip">Sunday, 24 May 2026</div>
         <div class="orb"><span>📱</span></div>
         <h2>One message. That's all it took.</h2>
-        <p>Out of all of Instagram — somehow, you and me.</p>
-        <!-- <button class="secret" onclick="reveal(this)"
-          data-secret="Secret: I re-read that first chat way more than I'll ever admit. 🙈">
-          🔒 Tap for a secret
-        </button> -->
+        <p>Out of everyone on Instagram — somehow, it was you and me.</p>
       </section>
 
 
-      <!-- 2 -------------------------------------------- -->
-      <section class="screen" data-hue="285" data-next="Next day... ☕">
-        <div class="chip">30 May 2026 Saturday</div>
+      <!-- CHAPTER 2 ------------------------------------ -->
+      <section class="screen" data-hue="285" data-next="The next day... ☕">
+        <div class="chip">Saturday, 30 May 2026</div>
         <div class="orb"><span>💊</span></div>
-        <h2>Meet on Medical shop</h2>
-        <p>A few minutes at the medical. I remember every one of them.</p>
-        <!-- <button class="secret" onclick="reveal(this)"
-          data-secret="Secret: I was nervous the whole time. I hid it well. 😅">
-          🔒 Tap for a secret
-        </button> -->
+        <h2>We met at the medical shop</h2>
+        <p>Only a few minutes there — and I still remember every one of them.</p>
       </section>
 
 
-      <!-- 3 -------------------------------------------- -->
-      <section class="screen" data-hue="255" data-next="That evening... 🌊">
-        <div class="chip">31 May 2026 Sunday</div>
+      <!-- CHAPTER 3 ------------------------------------ -->
+      <section class="screen" data-hue="255" data-next="A few days later... 🌙">
+        <div class="chip">Sunday, 31 May 2026</div>
         <div class="orb"><span>☕</span></div>
-        <h2>Santushti Shakes 🥤, EME Temple &amp; Sursagar Gajraj Cafe</h2>
-        <p>Standing next to you, hands folded, Fatehgunj quiet around us.</p>
-        <p>Discover new temple with you and zero reason to go home.</p>
-        <!-- <button class="secret" onclick="reveal(this)"
-          data-secret="Secret: I forgot what I asked for — I think I'd already got it. ❤️">
-          🔒 Tap for a secret
-        </button> -->
+        <h2>Santushti Shakes 🥤, EME Temple &amp; Gajraj Cafe at Sursagar</h2>
+        <p>Standing beside you, hands folded, with Fatehgunj quiet all around us.</p>
+        <p>A new temple to discover with you, and not one single reason to go home.</p>
       </section>
 
 
-      <!-- 4 -------------------------------------------- -->
-      <!-- <section class="screen" data-hue="200" data-next="Then the nights... 🌙">
-        <div class="chip">31 May </div>
-        <div class="orb"><span>🌊</span></div>
-        <h2>Sursagar &amp; Gajraj Cafe</h2>
-        <p>Lights on the water, coffee, and zero reason to go home.</p>
-        <button class="secret" onclick="reveal(this)"
-          data-secret="Secret: that's the evening I stopped checking the time. ☕">
-          🔒 Tap for a secret
-        </button>
-      </section> -->
-
-
-      <!-- 5 -------------------------------------------- -->
-      <section class="screen" data-hue="265" data-next="Again the next day... 🚉">
-        <div class="chip">05 June Friday</div>
+      <!-- CHAPTER 4 ------------------------------------ -->
+      <section class="screen" data-hue="265" data-next="The next day... 🚉">
+        <div class="chip">Friday, 05 June 2026</div>
         <div class="orb"><span>🌙</span></div>
-        <h2>"Just for See Face & Time pass" 😄</h2>
-        <p>You picked 🛵 me up from my parking. No plan, no destination.</p>
-        <!-- <button class="secret" onclick="reveal(this)"
-          data-secret="Secret: best 'no plan' of my life. 🛵">
-          🔒 Tap for a secret
-        </button> -->
+        <h2>"Just to see your face and pass the time" 😄</h2>
+        <p>You picked me up from my parking spot on your scooter 🛵. No plan, no destination.</p>
       </section>
 
 
-      <!-- 6 -------------------------------------------- -->
+      <!-- CHAPTER 5 ------------------------------------ -->
       <section class="screen" data-hue="150" data-next="Now the best one... 🤗">
-        <div class="chip">06 June Sunday</div>
+        <div class="chip">Saturday, 06 June 2026</div>
         <div class="orb"><span>🚉</span></div>
         <h2>Pratapnagar Station &amp; Sayaji Garden</h2>
-        <p>We met at Sayaji Garden and talked about so many important things, but what I remember most is you putting sunscreen on my face—it was such a nice moment. ❤️</p>
-        <!-- <button class="secret" onclick="reveal(this)"
-          data-secret="Secret: a habit I'm never breaking. 🌳">
-          🔒 Tap for a secret
-        </button> -->
+        <p>We met at Sayaji Garden and talked about so many important things. But what I remember most is you putting sunscreen on my face — such a small, lovely moment. ❤️</p>
       </section>
 
 
-      <!-- 7 -------------------------------------------- -->
+      <!-- CHAPTER 6 ------------------------------------ -->
       <section class="screen" data-hue="340" data-next="Food day 🍜">
-        <div class="chip">07 June Sunday</div>
+        <div class="chip">Sunday, 07 June 2026</div>
         <div class="orb"><span>🤗</span></div>
         <h2>Our first hug ❤️</h2>
         <p>I came to your home for katha prasad. I left with a date I'll never need a reminder for.</p>
-        <!-- <button class="secret" onclick="reveal(this)"
-          data-secret="Secret: small moment. Changed absolutely everything. 💗">
-          🔒 Tap for a secret
-        </button> -->
       </section>
 
 
-      <!-- 8 -------------------------------------------- -->
+      <!-- CHAPTER 7 ------------------------------------ -->
       <section class="screen" data-hue="30" data-next="One more... ✨">
-        <div class="chip">12 June Friday</div>
+        <div class="chip">Friday, 12 June 2026</div>
         <div class="orb"><span>🍜</span></div>
-        <h2>Maggi + gulab jamun 🍮 &amp; Kayak's Cafe &amp; Tapovan Temple</h2> 
-        <p>Take a day off just for you, visit Kayak’s Café, create an unforgettable memory and a once-in-a-lifetime moment, and discover a new temple together—Tapovan Temple. ❤️</p>
-        <!-- <button class="secret" onclick="reveal(this)"
-          data-secret="Secret: still the greatest food combo ever invented. 😄">
-          🔒 Tap for a secret
-        </button> -->
+        <h2>Maggi + gulab jamun 🍮, Kayak's Cafe &amp; Tapovan Temple</h2>
+        <p>I took the whole day off just for you. Kayak's Cafe, a memory I'll never forget, and one more new temple to discover together — Tapovan. ❤️</p>
       </section>
 
 
-      <!-- 9 -------------------------------------------- -->
+      <!-- CHAPTER 8 ------------------------------------ -->
       <section class="screen" data-hue="310" data-next="See it all together 💫">
-        <div class="chip">20 June Sunday</div>
+        <div class="chip">Saturday, 20 June 2026</div>
         <div class="orb"><span>✨</span></div>
-        <h2>Navapura Police Station opp, Yogini</h2>
-        <p>I came just to meet you, even when you said no, waited opposite Navapura Police Station, and brought chocolate to share with you because I knew these were your difficult days.</p>
-        <p>Your world and my world stopped being two separate things.</p>
-        <!-- <button class="secret" onclick="reveal(this)"
-          data-secret="Secret: that's when I knew this wasn't 'random meetings' anymore. ❤️">
-          🔒 Tap for a secret
-        </button> -->
+        <h2>Outside Navapura Police Station, with Yogini</h2>
+        <p>I came just to see you, even after you said no. I waited across from Navapura Police Station with chocolate, because I knew you were having a hard few days.</p>
+        <p>That's when your world and my world stopped being two separate things.</p>
       </section>
 
 
-      <!-- 10 — RECAP ----------------------------------- -->
+      <!-- RECAP ---------------------------------------- -->
       <section class="screen" id="screenRecap" data-hue="320" data-next="Now... it's your day 🎂">
 
         <div class="chip">Our story so far</div>
 
         <div class="counters">
           <div class="count"><b data-to="27">0</b><i>Days</i></div>
-          <div class="count"><b data-to="9">0</b><i>Chapters</i></div>
+          <div class="count"><b data-to="8">0</b><i>Chapters</i></div>
           <div class="count"><b data-to="1">0</b><i>Story</i></div>
         </div>
 
         <div class="mini">
           <div><b>24 May</b> · 📱 One Instagram message</div>
-          <div><b>30 May</b> · 💊 The medical — first look</div>
-          <div><b>31 May</b> · 🛕 EME Temple · 🌊 Sursagar · ☕ Gajraj</div>
+          <div><b>30 May</b> · 💊 The medical shop — our first look</div>
+          <div><b>31 May</b> · 🥤 Santushti Shakes · 🛕 EME Temple · ☕ Gajraj at Sursagar</div>
           <div><b>05 Jun</b> · 🌙 The "time pass" night ride</div>
-          <div><b>06 Jun</b> · 🚉 Pratapnagar · 🌳 Kamati Baug</div>
-          <div><b>07 Jun</b> · 🤗 Prasad... and our first hug</div>
-          <div><b>12 Jun</b> · 🍜 Maggi · ☕ Kayak's · 🛕 Tapovan</div>
+          <div><b>06 Jun</b> · 🚉 Pratapnagar · 🌳 Sayaji Garden</div>
+          <div><b>07 Jun</b> · 🤗 Katha prasad... and our first hug</div>
+          <div><b>12 Jun</b> · 🍜 Maggi · ☕ Kayak's Cafe · 🛕 Tapovan Temple</div>
           <div><b>20 Jun</b> · ✨ Navapura, with Yogini</div>
         </div>
 
       </section>
 
 
-      <!-- 11 — CAKE ------------------------------------ -->
+      <!-- CAKE ----------------------------------------- -->
       <section class="screen" id="screenCake" data-hue="335" data-nav="off">
 
         <div class="chip">Today is all about you</div>
@@ -975,16 +898,16 @@
           </div>
         </div>
 
-        <h1>Happy Birthday, Diyu ❤️</h1>  
+        <h1>Happy Birthday, Diyu ❤️</h1>
 
-        <p>Close your eyes. Make a wish. <br>Then blow them out. ✨</p>
+        <p>Close your eyes. Make a wish. <br>Then blow out the candles. ✨</p>
 
-        <button class="btn" id="wishBtn" onclick="blowCandles()">Blow the candles 🕯️</button>
+        <button class="btn" type="button" id="wishBtn" onclick="blowCandles()">Blow out the candles 🕯️</button>
 
       </section>
 
 
-      <!-- 12 — NOTE ------------------------------------ -->
+      <!-- NOTE ----------------------------------------- -->
       <section class="screen" id="screenNote" data-hue="325" data-nav="off">
 
         <div class="beat">💖</div>
@@ -994,51 +917,50 @@
         <div class="note"><span id="noteText"></span><span class="cursor" id="noteCursor"></span></div>
 
         <div class="nav">
-          <button class="btn ghost" id="skipBtn" onclick="skipTyping()">Skip ⏩</button>
-          <button class="btn" id="noteNext" onclick="next()" style="display:none">One last thing ❤️</button>
+          <button class="btn ghost" type="button" id="skipBtn" onclick="skipTyping()">Skip ⏩</button>
+          <button class="btn" type="button" id="noteNext" onclick="next()" style="display:none">One last thing ❤️</button>
         </div>
 
       </section>
 
 
-      <!-- 13 — FINAL ----------------------------------- -->
+      <!-- FINAL ---------------------------------------- -->
       <section class="screen" id="screenFinal" data-hue="330" data-nav="off">
 
         <div class="beat">💗</div>
 
         <h1>Happy Birthday 🎂</h1>
 
-        <p class="final">
+        <p>
           More smiles, more wins, more silly Maggi days.
           <br>
-          And many more dates for
+          And many more dates to add to
           <span class="hl">our little list</span>. 💕
         </p>
 
-        <!-- <button class="secret" onclick="reveal(this, true)"
-          data-secret="P.S. Chapter 10 is already loading... 😉❤️">
-          🎁 One more surprise
-        </button> -->
-
         <div class="nav">
-          <button class="btn ghost" onclick="replay()">Read it again ↺</button>
+          <button class="btn ghost" type="button" onclick="replay()">Read it again ↺</button>
         </div>
 
       </section>
+
+
+      <!-- SHARED NAV (used by every screen without data-nav="off") -->
+      <div class="nav" id="nav" style="display:none">
+        <button class="btn ghost" type="button" onclick="back()">←</button>
+        <button class="btn" type="button" id="nextBtn" onclick="next()">Next ✨</button>
+      </div>
 
 
     </div>
   </div>
 
 
-  <!-- SHARED NAV -->
-  <div class="nav" id="nav" style="display:none"></div>
-
   <div class="dots" id="dots"></div>
 
   <div class="toast" id="toast"></div>
 
-  <button class="surprise-btn" onclick="surprise()" title="Tap me">🎁</button>
+  <button class="surprise-btn" type="button" onclick="surprise()" title="Tap me">🎁</button>
 
 
   <script>
@@ -1067,24 +989,23 @@
     const screens = Array.from(document.querySelectorAll(".screen"));
     const progressFill = document.getElementById("progressFill");
     const dotsWrap = document.getElementById("dots");
+    const navRow = document.getElementById("nav");
+    const nextBtn = document.getElementById("nextBtn");
     const root = document.documentElement;
+
+    /* last screen that still counts as part of the story — used to decide
+       where the little heart burst on every page change should stop */
+    const recapIndex = screens.findIndex(s => s.id === "screenRecap");
 
     let current = 0;
 
-    /* the shared next/back row lives inside the card, under the screens */
-    const navRow = document.getElementById("nav");
-    navRow.innerHTML =
-      '<button class="btn ghost" onclick="back()">←</button>' +
-      '<button class="btn" id="nextBtn" onclick="next()">Next ✨</button>';
-    card.appendChild(navRow);
 
-    const nextBtn = document.getElementById("nextBtn");
-
-
-    /* dots */
+    /* one dot per screen */
     screens.forEach((_, i) => {
       const d = document.createElement("button");
       d.className = "dot";
+      d.type = "button";
+      d.setAttribute("aria-label", "Go to page " + (i + 1));
       d.onclick = () => go(i);
       dotsWrap.appendChild(d);
     });
@@ -1097,6 +1018,9 @@
       index = Math.max(0, Math.min(screens.length - 1, index));
       if (index === current) return;
 
+      /* stop the note from typing itself in the background */
+      clearTimeout(typeTimer);
+
       screens[current].classList.remove("active");
       current = index;
 
@@ -1106,11 +1030,11 @@
       /* accent hue shift — every chapter feels different */
       root.style.setProperty("--h", screen.dataset.hue || 330);
 
-      /* progress + dots */
+      /* progress bar + dots */
       progressFill.style.width = (current / (screens.length - 1)) * 100 + "%";
       dots.forEach((d, i) => d.classList.toggle("on", i === current));
 
-      /* shared nav */
+      /* shared next/back row */
       if (screen.dataset.nav === "off") {
         navRow.style.display = "none";
       } else {
@@ -1125,20 +1049,19 @@
       if (screen.id === "screenNote") startTyping();
       if (screen.id === "screenFinal") celebrate();
 
-      if (current > 0 && current < 10) burst(innerWidth / 2, innerHeight / 2, 10);
+      if (current > 0 && current <= recapIndex) {
+        burst(innerWidth / 2, innerHeight / 2, 10);
+      }
     }
 
     function next() { go(current + 1); }
     function back() { go(current - 1); }
 
     function replay() {
+      resetGift();
       relight();
       go(0);
       progressFill.style.width = "0%";
-      document.querySelectorAll(".secret.open").forEach(s => {
-        s.classList.remove("open");
-        s.textContent = s.dataset.label || "🔒 Tap for a secret";
-      });
     }
 
     /* initial state (go() early-returns on the screen we're already on) */
@@ -1168,7 +1091,7 @@
     }, { passive: true });
 
 
-    /* card tilt (pointer only) */
+    /* card tilt (pointer devices only) */
 
     if (matchMedia("(hover: hover)").matches) {
       addEventListener("mousemove", e => {
@@ -1180,11 +1103,12 @@
 
 
     /* =====================================================
-       GIFT + SECRETS
+       GIFT BOX
     ===================================================== */
 
+    const gift = document.getElementById("gift");
+
     function openGift() {
-      const gift = document.getElementById("gift");
       if (gift.classList.contains("open")) return;
       gift.classList.add("open");
 
@@ -1195,17 +1119,9 @@
       setTimeout(next, 850);
     }
 
-
-    function reveal(el, big) {
-      if (el.classList.contains("open")) return;
-
-      el.dataset.label = el.textContent.trim();
-      el.textContent = el.dataset.secret;
-      el.classList.add("open");
-
-      const r = el.getBoundingClientRect();
-      burst(r.left + r.width / 2, r.top + r.height / 2, big ? 30 : 14);
-      if (big) confetti(60);
+    /* close the box again so "Read it again" starts from a fresh intro */
+    function resetGift() {
+      gift.classList.remove("open");
     }
 
 
@@ -1242,8 +1158,9 @@
       if (blown) return;
       blown = true;
 
-      const flames = document.querySelectorAll(".flame");
-      flames.forEach((f, i) => setTimeout(() => f.classList.add("out"), i * 260));
+      document.querySelectorAll(".flame").forEach((f, i) => {
+        setTimeout(() => f.classList.add("out"), i * 260);
+      });
 
       document.getElementById("wishBtn").disabled = true;
 
@@ -1255,6 +1172,7 @@
       setTimeout(next, 2200);
     }
 
+    /* put the candles back for a second read-through */
     function relight() {
       blown = false;
       counted = false;
@@ -1269,13 +1187,13 @@
 
     const note = `Diyu ❤️
 
-No long essay today. Just this:
+No long letter today. Just this:
 
-In 27 days you became one of
-my favourite people.
+In 27 days, you became one of my
+favourite people.
 
 Not because of anything big —
-because of temples, night rides,
+but because of temples, night rides,
 Maggi, and laughing at nothing.
 
 Happy birthday. 🎂
@@ -1306,12 +1224,14 @@ Be as happy as you make me.`;
       })();
     }
 
+    /* show the whole note straight away */
     function skipTyping() {
       clearTimeout(typeTimer);
       document.getElementById("noteText").textContent = note;
       endTyping();
     }
 
+    /* hide the cursor and swap Skip for the last button */
     function endTyping() {
       document.getElementById("noteCursor").classList.add("done");
       document.getElementById("skipBtn").style.display = "none";
@@ -1345,6 +1265,7 @@ Be as happy as you make me.`;
     }
 
 
+    /* emoji raining down from the top of the screen */
     function confetti(count) {
       for (let i = 0; i < count; i++) {
         const c = document.createElement("div");
@@ -1360,6 +1281,7 @@ Be as happy as you make me.`;
     }
 
 
+    /* the big moment: confetti falling and hearts floating up */
     function celebrate() {
       confetti(90);
 
@@ -1377,11 +1299,11 @@ Be as happy as you make me.`;
     }
 
 
-    /* click anywhere = tiny heart burst */
+    /* tap anywhere for a tiny heart burst */
     addEventListener("pointerdown", e => burst(e.clientX, e.clientY, 5));
 
 
-    /* gentle background hearts */
+    /* a gentle heart drifting up every couple of seconds */
     setInterval(() => {
       if (document.hidden) return;
       const h = document.createElement("div");
@@ -1409,15 +1331,16 @@ Be as happy as you make me.`;
     }
 
 
+    /* one line per tap of the 🎁 button, in order, then it loops */
     const LINES = [
-      "Fact: 24th May was Instagram's best work ever. 📱",
-      "Somewhere a plate of Maggi is missing you. 🍜",
+      "Fact: 24 May was Instagram's finest work ever. 📱",
+      "Somewhere, a plate of Maggi is missing you. 🍜",
       "You laugh at your own jokes. It's adorable. 😄",
-      "Gulab jamun agrees: you're the sweetest here. 🍮",
-      "Warning — extremely special person detected. ✨",
-      "This button is just a Diyu appreciation machine. 💗",
-      "One message. 27 days. Still can't believe it. ❤️",
-      "Tap again, I've got more. 😉"
+      "Even the gulab jamun agrees — you're the sweetest one here. 🍮",
+      "Warning: extremely special person detected. ✨",
+      "This button is simply a Diyu appreciation machine. 💗",
+      "One message. 27 days. I still can't believe it. ❤️",
+      "Tap again — I've got more. 😉"
     ];
 
     let lineIndex = 0;
