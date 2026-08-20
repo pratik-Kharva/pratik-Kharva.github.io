@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sukhadia Foods — Admin Dashboard (Demo)</title>
+<meta name="description" content="Demo admin dashboard for Sukhadia Foods: orders, inventory, customers, analytics and Excel export.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1C1A17">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="admin.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231C1A17'/><circle cx='50' cy='38' r='15' fill='%23E5B769'/><ellipse cx='54' cy='64' rx='19' ry='22' fill='%23E5B769'/><path d='M35 36c-8 2-11 8-9 13 3-4 7-5 11-5-2-3-2-5-2-8z' fill='%23E5B769'/><circle cx='45' cy='34' r='3' fill='%231C1A17'/></svg>">
+</head>
+
+<body data-page="admin">
+<a class="skip-link" href="#adMain">Skip to content</a>
+
+<div class="ad">
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="ad__side" id="adSide" aria-label="Dashboard sections">
+    <div class="ad__brand">
+      <span class="ad__mark" aria-hidden="true">
+        <svg viewBox="0 0 120 120">
+          <g fill="currentColor"><path d="M56 74c-4 14-16 26-34 34 12-12 20-22 24-36z"/><ellipse cx="64" cy="62" rx="22" ry="26"/><circle cx="60" cy="34" r="16"/><path d="M60 18c-2-8 2-12 8-14-2 6-2 10-3 15z"/><path d="M45 32c-9 2-13 8-11 14 4-4 8-5 12-5-2-3-2-6-1-9z"/></g>
+          <circle cx="55" cy="30" r="3.4" fill="#1C1A17"/>
+          <path d="M56 86v10M70 86v10M30 98h64" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        </svg>
+      </span>
+      <span class="ad__brandtx">
+        <b>Sukhadia</b>
+        <em>Admin console</em>
+      </span>
+      <button class="ad__sideclose" id="sideClose" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <nav class="ad__nav">
+      <p class="ad__navlbl">Overview</p>
+      <button class="ad__link is-on" data-go="dashboard">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="ad__link" data-go="analytics">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M8 16V11M12.5 16V7.5M17 16v-4"/></svg>
+        <span>Analytics</span>
+      </button>
+
+      <p class="ad__navlbl">Operations</p>
+      <button class="ad__link" data-go="orders">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4.5h11l1.5 15h-14z"/><path d="M9.5 8V6.5a2.5 2.5 0 0 1 5 0V8"/></svg>
+        <span>Orders</span><em class="ad__count" id="navOrders">0</em>
+      </button>
+      <button class="ad__link" data-go="products">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l8 4.2v8.6l-8 4.2-8-4.2V7.7z"/><path d="M4 7.7l8 4.3 8-4.3M12 12v8.5"/></svg>
+        <span>Products</span>
+      </button>
+      <button class="ad__link" data-go="inventory">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 8.5h17v11h-17z"/><path d="M3.5 8.5l2-4h13l2 4M12 8.5v11"/></svg>
+        <span>Inventory</span><em class="ad__count ad__count--warn" id="navInv" hidden>0</em>
+      </button>
+      <button class="ad__link" data-go="customers">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 19.5c1.2-3.6 3.6-5.5 6.5-5.5s5.3 1.9 6.5 5.5"/><path d="M16 5.2a3.4 3.4 0 0 1 0 6.6M18 14.4c2 .8 3.2 2.5 3.8 5.1"/></svg>
+        <span>Customers</span>
+      </button>
+
+      <p class="ad__navlbl">Data</p>
+      <button class="ad__link" data-go="exports">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11M8 11l4 3.5 4-3.5"/><path d="M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"/></svg>
+        <span>Exports</span>
+      </button>
+      <button class="ad__link" data-go="settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 14.5a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.2a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.2-2.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 2.9-1.2V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0 1.2 2.9H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+    <div class="ad__sidefoot">
+      <a class="ad__back" href="index.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        View storefront
+      </a>
+      <p class="ad__note">Frontend demo. Data lives in this browser only.</p>
+    </div>
+  </aside>
+  <div class="ad__scrim" id="sideScrim"></div>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <div class="ad__main">
+    <header class="ad__top">
+      <button class="ad__burger" id="sideOpen" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </button>
+      <div class="ad__title">
+        <h1 id="adH1">Dashboard</h1>
+        <p id="adSub">Live figures from demo order data</p>
+      </div>
+
+      <div class="ad__search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="search" id="adGlobal" placeholder="Search orders, products, customers…" aria-label="Search">
+        <div class="ad__sresults" id="adSResults" hidden></div>
+      </div>
+
+      <div class="ad__acts">
+        <span class="ad__demo" title="This is a demonstration environment">Demo mode</span>
+        <button class="ad__ico" id="bellBtn" aria-label="Inventory alerts">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10.3 20a2 2 0 0 0 3.4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          <span class="ad__dot" id="bellDot" hidden></span>
+        </button>
+        <div class="ad__prof" title="Demo account">
+          <span class="ad__avatar">AS</span>
+          <span class="ad__profn"><b>Ashok S.</b><em>Owner</em></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="ad__body" id="adMain">
+      <!-- ═════ DASHBOARD ═════ -->
+      <section class="view" data-view="dashboard">
+        <div class="rangebar" id="rangeBarDash"></div>
+        <div id="alertBox"></div>
+        <div class="kpis" id="kpis"></div>
+
+        <div class="row row--2">
+          <article class="panel">
+            <header class="panel__h">
+              <div><h2>Revenue</h2><p id="revSub">Last 30 days</p></div>
+              <div class="seg" id="chartSeg" role="group" aria-label="Chart metric">
+                <button class="seg__b is-on" data-metric="revenue">Revenue</button>
+                <button class="seg__b" data-metric="orders">Orders</button>
+                <button class="seg__b" data-metric="units">Units</button>
+              </div>
+            </header>
+            <div class="panel__b"><div id="chartMain" class="chart"></div></div>
+          </article>
+
+          <article class="panel">
+            <header class="panel__h"><div><h2>Category mix</h2><p>Share of revenue</p></div></header>
+            <div class="panel__b"><div id="chartDonut" class="chart chart--donut"></div></div>
+          </article>
+        </div>
+
+        <div class="row row--2">
+          <article class="panel">
+            <header class="panel__h"><div><h2>Best selling products</h2><p>Ranked by units sold</p></div>
+              <button class="btn btn--ghost btn--sm" data-go="analytics">View all</button></header>
+            <div class="panel__b panel__b--flush"><div id="bestTable"></div></div>
+          </article>
+
+          <article class="panel">
+            <header class="panel__h"><div><h2>Business insights</h2><p>Generated from your data</p></div></header>
+            <div class="panel__b"><div id="insights"></div></div>
+          </article>
+        </div>
+
+        <div class="row row--2">
+          <article class="panel">
+            <header class="panel__h"><div><h2>Popular products</h2><p>Units, order frequency and revenue combined</p></div></header>
+            <div class="panel__b"><div id="popList"></div></div>
+          </article>
+          <article class="panel">
+            <header class="panel__h"><div><h2>Recommended stock actions</h2><p>Based on sales rate vs stock on hand</p></div></header>
+            <div class="panel__b"><div id="stockRec"></div></div>
+          </article>
+        </div>
+
+        <article class="panel">
+          <header class="panel__h"><div><h2>Recent orders</h2><p>Newest first</p></div>
+            <button class="btn btn--ghost btn--sm" data-go="orders">All orders</button></header>
+          <div class="panel__b panel__b--flush"><div id="recentOrders"></div></div>
+        </article>
+      </section>
+
+      <!-- ═════ ANALYTICS ═════ -->
+      <section class="view" data-view="analytics" hidden>
+        <div class="rangebar" id="rangeBarAn"></div>
+        <div class="kpis kpis--4" id="anKpis"></div>
+        <div class="row row--2">
+          <article class="panel">
+            <header class="panel__h"><div><h2>Revenue over time</h2><p id="anRevSub"></p></div></header>
+            <div class="panel__b"><div id="anChartRev" class="chart"></div></div>
+          </article>
+          <article class="panel">
+            <header class="panel__h"><div><h2>Orders over time</h2><p id="anOrdSub"></p></div></header>
+            <div class="panel__b"><div id="anChartOrd" class="chart"></div></div>
+          </article>
+        </div>
+        <div class="row row--2">
+          <article class="panel">
+            <header class="panel__h"><div><h2>Category performance</h2><p>Units, revenue and share</p></div></header>
+            <div class="panel__b"><div id="anCats"></div></div>
+          </article>
+          <article class="panel">
+            <header class="panel__h"><div><h2>Units sold by product</h2><p>Top 10</p></div></header>
+            <div class="panel__b"><div id="anBars" class="chart"></div></div>
+          </article>
+        </div>
+        <article class="panel">
+          <header class="panel__h"><div><h2>Product performance</h2><p>Every product with sales in this period</p></div>
+            <button class="btn btn--gold btn--sm" id="expAnalytics">Export analytics</button></header>
+          <div class="panel__b panel__b--flush"><div id="anTable"></div></div>
+        </article>
+      </section>
+
+      <!-- ═════ ORDERS ═════ -->
+      <section class="view" data-view="orders" hidden>
+        <div class="toolbar">
+          <div class="fieldi">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <input type="search" id="ordSearch" placeholder="Order ID, customer, phone…" aria-label="Search orders">
+          </div>
+          <select id="ordStatus" aria-label="Filter by status"><option value="">All statuses</option></select>
+          <select id="ordSort" aria-label="Sort orders">
+            <option value="new">Newest first</option>
+            <option value="old">Oldest first</option>
+            <option value="hi">Total: high to low</option>
+            <option value="lo">Total: low to high</option>
+          </select>
+          <button class="btn btn--gold btn--sm" id="expOrders">Export to Excel</button>
+        </div>
+        <article class="panel"><div class="panel__b panel__b--flush"><div id="ordTable"></div></div></article>
+      </section>
+
+      <!-- ═════ PRODUCTS ═════ -->
+      <section class="view" data-view="products" hidden>
+        <div class="toolbar">
+          <div class="fieldi">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <input type="search" id="prSearch" placeholder="Search products…" aria-label="Search products">
+          </div>
+          <select id="prCat" aria-label="Filter by category"><option value="">All categories</option></select>
+          <select id="prStock" aria-label="Filter by stock">
+            <option value="">All stock levels</option>
+            <option value="in">In stock</option>
+            <option value="low">Low stock</option>
+            <option value="out">Out of stock</option>
+          </select>
+          <select id="prSort" aria-label="Sort products">
+            <option value="units">Units sold</option>
+            <option value="revenue">Revenue</option>
+            <option value="stock">Stock</option>
+            <option value="price">Price</option>
+            <option value="az">Name A–Z</option>
+          </select>
+          <button class="btn btn--primary btn--sm" id="prNew">+ New product</button>
+        </div>
+        <article class="panel"><div class="panel__b panel__b--flush"><div id="prTable"></div></div></article>
+      </section>
+
+      <!-- ═════ INVENTORY ═════ -->
+      <section class="view" data-view="inventory" hidden>
+        <div class="toolbar">
+          <div class="fieldi">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <input type="search" id="invSearch" placeholder="Search inventory…" aria-label="Search inventory">
+          </div>
+          <div class="seg" id="invSeg" role="group" aria-label="Filter by stock state">
+            <button class="seg__b is-on" data-inv="">All</button>
+            <button class="seg__b" data-inv="in">In stock</button>
+            <button class="seg__b" data-inv="low">Low</button>
+            <button class="seg__b" data-inv="out">Out</button>
+          </div>
+          <button class="btn btn--gold btn--sm" id="expInv">Export inventory</button>
+        </div>
+        <article class="panel"><div class="panel__b panel__b--flush"><div id="invTable"></div></div></article>
+      </section>
+
+      <!-- ═════ CUSTOMERS ═════ -->
+      <section class="view" data-view="customers" hidden>
+        <div class="kpis kpis--4" id="cuKpis"></div>
+        <div class="toolbar">
+          <div class="fieldi">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <input type="search" id="cuSearch" placeholder="Search customers…" aria-label="Search customers">
+          </div>
+          <select id="cuType" aria-label="Filter by customer type">
+            <option value="">All customers</option><option value="New">New</option>
+            <option value="Returning">Returning</option><option value="VIP">VIP</option>
+          </select>
+          <button class="btn btn--gold btn--sm" id="expCust">Export customers</button>
+        </div>
+        <article class="panel"><div class="panel__b panel__b--flush"><div id="cuTable"></div></div></article>
+      </section>
+
+      <!-- ═════ EXPORTS ═════ -->
+      <section class="view" data-view="exports" hidden>
+        <article class="panel">
+          <header class="panel__h"><div><h2>Excel exports</h2><p>Everything below is generated from the data in this browser</p></div></header>
+          <div class="panel__b">
+            <div class="expgrid">
+              <div class="expcard">
+                <h3>Complete workbook</h3>
+                <p>One <b>.xlsx</b> with seven sheets: Orders, Order Items, Products, Inventory, Customers, Analytics and Category Sales.</p>
+                <p class="expcard__f">sukhadia-orders.xlsx</p>
+                <button class="btn btn--gold" id="expAll">Export to Excel</button>
+              </div>
+              <div class="expcard">
+                <h3>Analytics workbook</h3>
+                <p>Best sellers, popular products, category revenue, headline totals and inventory status.</p>
+                <p class="expcard__f">sukhadia-analytics.xlsx</p>
+                <button class="btn btn--gold" id="expAn2">Export analytics</button>
+              </div>
+              <div class="expcard">
+                <h3>Orders only</h3>
+                <p>A flat order list for accounting — one row per order.</p>
+                <p class="expcard__f">sukhadia-orders-flat.xlsx</p>
+                <button class="btn btn--ghost" id="expFlat">Export orders</button>
+              </div>
+              <div class="expcard">
+                <h3>Inventory only</h3>
+                <p>Current stock, thresholds, units sold and status per product.</p>
+                <p class="expcard__f">sukhadia-inventory.xlsx</p>
+                <button class="btn btn--ghost" id="expInv2">Export inventory</button>
+              </div>
+            </div>
+            <p class="hint" id="expHint"></p>
+          </div>
+        </article>
+      </section>
+
+      <!-- ═════ SETTINGS ═════ -->
+      <section class="view" data-view="settings" hidden>
+        <div class="row row--2">
+          <article class="panel">
+            <header class="panel__h"><div><h2>Demo data</h2><p>Populate the dashboard for a presentation</p></div></header>
+            <div class="panel__b">
+              <p class="hint">Demo orders are clearly flagged <span class="badge badge--demo">Demo</span> in the orders table and in every export. Orders you place yourself through the storefront are never flagged, so the two never get confused.</p>
+              <div class="btnrow">
+                <button class="btn btn--primary" id="genDemo">Generate demo orders</button>
+                <button class="btn btn--ghost" id="clearDemo">Clear demo data</button>
+                <button class="btn btn--danger" id="resetAll">Reset everything</button>
+              </div>
+              <label class="fld2">
+                <span>How many demo orders?</span>
+                <input type="number" id="demoCount" value="48" min="5" max="150" step="1">
+              </label>
+            </div>
+          </article>
+
+          <article class="panel">
+            <header class="panel__h"><div><h2>Inventory rules</h2><p>When to flag a product</p></div></header>
+            <div class="panel__b">
+              <label class="fld2">
+                <span>Low-stock threshold (units)</span>
+                <input type="number" id="setThreshold" min="1" max="99" step="1">
+              </label>
+              <p class="hint">Products at or below this number are flagged <b>Low stock</b>; zero is flagged <b>Out of stock</b> and cannot be ordered on the storefront.</p>
+              <button class="btn btn--primary" id="saveThreshold">Save threshold</button>
+            </div>
+          </article>
+        </div>
+
+        <article class="panel panel--warn">
+          <header class="panel__h"><div><h2>Before this goes live</h2><p>Please read</p></div></header>
+          <div class="panel__b">
+            <p class="hint hint--lg">This is a <b>demo dashboard</b>. All data is stored locally in this browser using <code>localStorage</code> — nothing is sent anywhere, nothing is shared between devices, and there is no login. Clearing your browser data deletes it.</p>
+            <p class="hint hint--lg">A production deployment requires a secure backend, authenticated admin accounts with roles, a real database, server-side validation, audit logging and encrypted backups. Do not use this build to run the business.</p>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════ ORDER DRAWER ══════════ -->
+<aside class="drawer" id="ordDrawer" aria-hidden="true">
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="drTitle">
+    <header class="drawer__top">
+      <div><h2 id="drTitle">Order</h2><p id="drSub"></p></div>
+      <button class="ad__ico" id="drClose" aria-label="Close order">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+    <div class="drawer__body" id="drBody"></div>
+    <footer class="drawer__foot" id="drFoot"></footer>
+  </div>
+  <div class="drawer__scrim" data-close-drawer></div>
+</aside>
+
+<!-- ══════════ STOCK MODAL ══════════ -->
+<div class="modal" id="stockModal" aria-hidden="true">
+  <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="smTitle">
+    <header class="modal__top">
+      <h2 id="smTitle">Add stock</h2>
+      <button class="ad__ico" id="smClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+    <form class="modal__body" id="smForm">
+      <div class="smprod" id="smProd"></div>
+      <div class="smgrid">
+        <label class="fld2"><span>Current stock</span><input type="number" id="smCur" readonly></label>
+        <label class="fld2"><span>Add quantity</span><input type="number" id="smAdd" value="20" step="1"></label>
+        <label class="fld2"><span>New stock</span><input type="number" id="smNew" readonly class="is-hi"></label>
+        <label class="fld2"><span>Low-stock threshold</span><input type="number" id="smThr" min="0" step="1"></label>
+      </div>
+      <p class="hint">Set “Add quantity” to a negative number to correct an over-count.</p>
+      <div class="btnrow">
+        <button class="btn btn--primary" type="submit">Update inventory</button>
+        <button class="btn btn--ghost" type="button" id="smCancel">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <div class="modal__scrim" data-close-modal></div>
+</div>
+
+<!-- ══════════ PRODUCT MODAL ══════════ -->
+<div class="modal" id="prodModal" aria-hidden="true">
+  <div class="modal__box modal__box--wide" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
+    <header class="modal__top">
+      <h2 id="pmTitle">New product</h2>
+      <button class="ad__ico" id="pmClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+    <form class="modal__body" id="pmForm" novalidate>
+      <div class="pmrow">
+        <div class="pmpreview"><img id="pmPreview" src="assets/images/p-kaju-katli.jpg" alt=""></div>
+        <div class="pmfields">
+          <label class="fld2"><span>Product name</span>
+            <input type="text" id="pmName" placeholder="e.g. Mohanthal" autocomplete="off">
+            <em class="fld2__err" id="pmNameErr"></em>
+          </label>
+          <div class="smgrid">
+            <label class="fld2"><span>Category</span><select id="pmCat"></select></label>
+            <label class="fld2"><span>Price for 250 g (₹)</span>
+              <input type="number" id="pmPrice" min="1" step="1" placeholder="250">
+              <em class="fld2__err" id="pmPriceErr"></em>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <label class="fld2"><span>Description</span>
+        <textarea id="pmDesc" rows="2" placeholder="One line the shopper reads on the product card."></textarea>
+      </label>
+
+      <div class="smgrid">
+        <label class="fld2"><span>Main photo</span><select id="pmImg"></select></label>
+        <label class="fld2"><span>Hover photo (optional)</span><select id="pmImg2"></select></label>
+        <label class="fld2"><span>Opening stock</span><input type="number" id="pmStock" min="0" step="1" value="20"></label>
+        <label class="fld2"><span>Low-stock threshold</span><input type="number" id="pmThr" min="0" step="1" value="5"></label>
+      </div>
+
+      <label class="pmcheck">
+        <input type="checkbox" id="pmBest">
+        <span>Show the <b>Bestseller</b> tag on this product's card. The home page rail features the top 8 by popularity.</span>
+      </label>
+
+      <p class="hint" id="pmHint">Prices for 500 g and 1 kg are calculated from the 250 g price.</p>
+
+      <div class="btnrow">
+        <button class="btn btn--primary" type="submit" id="pmSave">Save product</button>
+        <button class="btn btn--ghost" type="button" id="pmCancel">Cancel</button>
+        <button class="btn btn--danger" type="button" id="pmDelete" hidden>Delete product</button>
+      </div>
+    </form>
+  </div>
+  <div class="modal__scrim" data-close-prod></div>
+</div>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<script src="assets/vendor/xlsx.full.min.js"></script>
+<script src="script.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
