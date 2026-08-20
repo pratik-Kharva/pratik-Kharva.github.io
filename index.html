@@ -1,1491 +1,904 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#06000c">
-  <meta name="description" content="A birthday story for Diyu — 8 chapters, 27 days, and one very important 18th of August.">
-
-  <title>Happy Birthday, Diyu ❤️</title>
-
-  <style>
-    /* =====================================================
-       BASE
-    ===================================================== */
-
-    :root {
-      --h: 330;                       /* accent hue — changes per chapter */
-      --accent: hsl(var(--h) 95% 66%);
-      --accent-soft: hsl(var(--h) 95% 66% / 0.18);
-      --ink: #f6e9f4;
-      --muted: #bda3c4;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-    }
-
-    body {
-      overflow: hidden;
-      background: #06000c;
-      color: var(--ink);
-      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif,
-        "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
-      -webkit-font-smoothing: antialiased;
-    }
-
-
-    /* =====================================================
-       BACKGROUND
-    ===================================================== */
-
-    .bg {
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      background: linear-gradient(150deg, #06000c, #150022 55%, #07000f);
-    }
-
-    .blob {
-      position: absolute;
-      width: 55vmax;
-      height: 55vmax;
-      border-radius: 50%;
-      filter: blur(70px);
-      opacity: 0.5;
-      transition: background 1s ease;
-    }
-
-    .blob.one {
-      top: -18vmax;
-      left: -12vmax;
-      background: hsl(var(--h) 90% 55% / 0.45);
-      animation: drift 16s ease-in-out infinite;
-    }
-
-    .blob.two {
-      bottom: -20vmax;
-      right: -14vmax;
-      background: hsl(calc(var(--h) - 60) 90% 55% / 0.4);
-      animation: drift 20s ease-in-out infinite reverse;
-    }
-
-    @keyframes drift {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50%      { transform: translate(6vmax, 4vmax) scale(1.12); }
-    }
-
-    .star {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      border-radius: 50%;
-      background: #fff;
-      animation: twinkle 2.4s infinite alternate;
-    }
-
-    @keyframes twinkle {
-      from { opacity: 0.1;  transform: scale(0.5); }
-      to   { opacity: 0.95; transform: scale(1.6); }
-    }
-
-
-    /* =====================================================
-       PROGRESS + DOTS
-    ===================================================== */
-
-    .progress {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 3px;
-      z-index: 40;
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .progress-fill {
-      width: 0;
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), #fff);
-      box-shadow: 0 0 14px var(--accent);
-      transition: width 0.45s cubic-bezier(.4, 1.4, .5, 1);
-    }
-
-    .dots {
-      position: fixed;
-      bottom: 14px;
-      left: 0;
-      width: 100%;
-      z-index: 40;
-      display: flex;
-      justify-content: center;
-      gap: 7px;
-      pointer-events: auto;
-    }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-      padding: 0;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.22);
-      transition: 0.35s;
-    }
-
-    .dot.on {
-      width: 22px;
-      border-radius: 6px;
-      background: var(--accent);
-      box-shadow: 0 0 12px var(--accent);
-    }
-
-
-    /* =====================================================
-       CARD
-    ===================================================== */
-
-    .stage {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 16px 42px;
-      perspective: 1100px;
-    }
-
-    .card {
-      width: 100%;
-      max-width: 560px;
-      max-height: 88vh;
-      overflow-y: auto;
-      text-align: center;
-      padding: 34px 26px;
-      border-radius: 30px;
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      box-shadow:
-        0 30px 90px rgba(0, 0, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.16);
-      transform-style: preserve-3d;
-      transition: transform 0.25s ease-out;
-      animation: cardIn 1s cubic-bezier(.2, .9, .3, 1.2);
-    }
-
-    .card::-webkit-scrollbar { width: 0; }
-
-    @keyframes cardIn {
-      from { opacity: 0; transform: translateY(50px) scale(0.9); }
-      to   { opacity: 1; transform: none; }
-    }
-
-
-    /* =====================================================
-       SCREENS + STAGGER
-    ===================================================== */
-
-    .screen { display: none; }
-    .screen.active { display: block; }
-
-    .screen.active > * {
-      animation: rise 0.55s cubic-bezier(.2, .9, .3, 1.15) both;
-    }
-
-    .screen.active > *:nth-child(1) { animation-delay: 0.02s; }
-    .screen.active > *:nth-child(2) { animation-delay: 0.09s; }
-    .screen.active > *:nth-child(3) { animation-delay: 0.16s; }
-    .screen.active > *:nth-child(4) { animation-delay: 0.23s; }
-    .screen.active > *:nth-child(5) { animation-delay: 0.30s; }
-    .screen.active > *:nth-child(6) { animation-delay: 0.37s; }
-    .screen.active > *:nth-child(7) { animation-delay: 0.44s; }
-    .screen.active > *:nth-child(8) { animation-delay: 0.51s; }
-
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(22px) scale(0.96); }
-      to   { opacity: 1; transform: none; }
-    }
-
-
-    /* =====================================================
-       TEXT
-    ===================================================== */
-
-    .chip {
-      display: inline-block;
-      padding: 6px 15px;
-      border-radius: 40px;
-      font-size: 12px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: hsl(var(--h) 90% 85%);
-      background: var(--accent-soft);
-      border: 1px solid hsl(var(--h) 90% 66% / 0.35);
-    }
-
-    h1 {
-      margin-top: 14px;
-      font-size: 42px;
-      line-height: 1.15;
-      background: linear-gradient(100deg, var(--accent), #fff 45%, var(--accent));
-      background-size: 250% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      animation: shimmer 5s linear infinite;
-    }
-
-    @keyframes shimmer {
-      to { background-position: 250% 0; }
-    }
-
-    /* h1 paints its gradient through transparent text, which would make a
-       colour emoji invisible too — this opts emoji back out of the clip */
-    h1 .emoji {
-      -webkit-text-fill-color: initial;
-      color: var(--ink);
-      -webkit-background-clip: initial;
-      background-clip: initial;
-      background: none;
-    }
-
-    h2 {
-      margin-top: 14px;
-      font-size: 27px;
-      line-height: 1.3;
-      color: #fff;
-    }
-
-    p {
-      margin-top: 14px;
-      font-size: 16.5px;
-      line-height: 1.65;
-      color: #e2d2e4;
-    }
-
-    .hl {
-      color: hsl(var(--h) 100% 76%);
-      font-weight: 700;
-    }
-
-    .tiny {
-      margin-top: 18px;
-      font-size: 11.5px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-
-    /* =====================================================
-       ORB ICON
-    ===================================================== */
-
-    .orb {
-      width: 116px;
-      height: 116px;
-      margin: 22px auto 4px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 30%, hsl(var(--h) 90% 60% / .35), transparent 65%);
-      border: 1px solid hsl(var(--h) 90% 70% / 0.3);
-      box-shadow: 0 0 45px hsl(var(--h) 90% 60% / 0.35);
-    }
-
-    .orb span {
-      font-size: 56px;
-      animation: float 3.2s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0)     rotate(-3deg); }
-      50%      { transform: translateY(-11px) rotate(3deg); }
-    }
-
-    .beat {
-      display: inline-block;
-      font-size: 76px;
-      animation: beat 1.15s infinite;
-    }
-
-    @keyframes beat {
-      0%, 100% { transform: scale(1); }
-      45%      { transform: scale(1.2); }
-    }
-
-
-    /* =====================================================
-       BUTTONS
-    ===================================================== */
-
-    .btn {
-      margin-top: 22px;
-      padding: 14px 28px;
-      border: none;
-      border-radius: 40px;
-      cursor: pointer;
-      color: #fff;
-      font-family: inherit;
-      font-size: 15.5px;
-      font-weight: 600;
-      line-height: 1;
-      background: linear-gradient(135deg, var(--accent), hsl(calc(var(--h) + 25) 95% 72%));
-      box-shadow: 0 10px 30px hsl(var(--h) 90% 55% / 0.4);
-      transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px) scale(1.04);
-      box-shadow: 0 16px 40px hsl(var(--h) 90% 55% / 0.6);
-    }
-
-    .btn:active { transform: scale(0.97); }
-
-    .btn:disabled { opacity: 0.5; cursor: default; }
-
-    .ghost {
-      padding: 11px 16px;
-      color: var(--muted);
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: none;
-      font-weight: 500;
-      font-size: 14px;
-    }
-
-    .ghost:hover {
-      transform: none;
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: none;
-      color: #fff;
-    }
-
-    .nav {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 4px;
-    }
-
-    .nav .ghost { margin-top: 22px; }
-
-
-    /* =====================================================
-       GIFT BOX (intro)
-    ===================================================== */
-
-    .gift {
-      position: relative;
-      width: 130px;
-      height: 105px;
-      margin: 28px auto 10px;
-      cursor: pointer;
-      animation: nudge 2.2s ease-in-out infinite;
-    }
-
-    @keyframes nudge {
-      0%, 82%, 100% { transform: rotate(0) scale(1); }
-      86%           { transform: rotate(-6deg) scale(1.05); }
-      92%           { transform: rotate(6deg)  scale(1.05); }
-    }
-
-    .gift-box {
-      position: absolute;
-      bottom: 0;
-      width: 130px;
-      height: 78px;
-      border-radius: 8px 8px 12px 12px;
-      background: linear-gradient(160deg, hsl(var(--h) 90% 68%), hsl(var(--h) 90% 52%));
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-    }
-
-    .gift-box::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 0;
-      width: 16px;
-      height: 100%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.75);
-    }
-
-    .gift-lid {
-      position: absolute;
-      top: 8px;
-      left: -6px;
-      width: 142px;
-      height: 30px;
-      border-radius: 8px;
-      background: linear-gradient(160deg, #fff, hsl(var(--h) 80% 88%));
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-      transition: transform 0.75s cubic-bezier(.3, 1.5, .5, 1), opacity 0.75s;
-    }
-
-    .gift-bow {
-      position: absolute;
-      top: -18px;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      font-size: 30px;
-      transition: transform 0.75s, opacity 0.75s;
-    }
-
-    .gift.open { animation: none; cursor: default; }
-    .gift.open .gift-lid { transform: translateY(-120px) rotate(-24deg); opacity: 0; }
-    .gift.open .gift-bow { transform: translateY(-160px) rotate(30deg); opacity: 0; }
-
-
-    /* =====================================================
-       COUNTERS (recap)
-    ===================================================== */
-
-    .counters {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 24px;
-    }
-
-    .count {
-      flex: 1;
-      padding: 16px 8px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .count b {
-      display: block;
-      font-size: 32px;
-      color: hsl(var(--h) 100% 78%);
-      text-shadow: 0 0 22px hsl(var(--h) 90% 60% / 0.6);
-    }
-
-    .count i {
-      font-size: 11px;
-      font-style: normal;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .mini {
-      margin-top: 22px;
-      text-align: left;
-      font-size: 14px;
-      line-height: 1.5;
-      color: #e6d7e6;
-    }
-
-    .mini div {
-      padding: 7px 0 7px 20px;
-      position: relative;
-      border-left: 2px solid hsl(var(--h) 90% 60% / 0.3);
-    }
-
-    .mini div::before {
-      content: "";
-      position: absolute;
-      left: -5px;
-      top: 12px;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 10px var(--accent);
-    }
-
-    .mini div:last-child { border-left-color: transparent; }
-
-    .mini b {
-      color: var(--muted);
-      font-size: 11.5px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
-
-
-    /* =====================================================
-       CAKE
-    ===================================================== */
-
-    /* top margin clears the candles + flames sticking out above the cake */
-    .cake-wrap { margin: 94px 0 6px; }
-
-    .cake {
-      position: relative;
-      width: 175px;
-      height: 96px;
-      margin: 0 auto;
-      background: linear-gradient(hsl(var(--h) 90% 76%), hsl(var(--h) 85% 62%));
-      border-radius: 14px 14px 18px 18px;
-      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
-      cursor: pointer;
-    }
-
-    .cake::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: -16px;
-      width: 175px;
-      height: 34px;
-      border-radius: 50%;
-      background: #fff3f9;
-    }
-
-    .cake::after {
-      content: "♡ ♡ ♡";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 18px;
-      font-size: 17px;
-      color: hsl(var(--h) 90% 90%);
-    }
-
-    .candle {
-      position: absolute;
-      top: -54px;
-      width: 12px;
-      height: 42px;
-      border-radius: 5px;
-      background: repeating-linear-gradient(45deg,
-        #ffd166 0 5px, hsl(var(--h) 90% 78%) 5px 10px);
-    }
-
-    .candle:nth-child(1) { left: 44px; }
-    .candle:nth-child(2) { left: 82px; }
-    .candle:nth-child(3) { left: 120px; }
-
-    .flame {
-      position: absolute;
-      top: -22px;
-      left: -1px;
-      width: 15px;
-      height: 22px;
-      background: #ffb703;
-      box-shadow: 0 0 18px #ff9d00;
-      border-radius: 50% 50% 50% 0;
-      transform: rotate(-45deg);
-      animation: flame 0.55s infinite alternate;
-      transition: transform 0.4s, opacity 0.4s;
-    }
-
-    @keyframes flame {
-      from { transform: rotate(-45deg) scale(0.8); }
-      to   { transform: rotate(-45deg) scale(1.15); }
-    }
-
-    .flame.out {
-      animation: none;
-      opacity: 0;
-      transform: rotate(-45deg) translateY(-26px) scale(0.3);
-    }
-
-
-    /* =====================================================
-       TYPED NOTE
-    ===================================================== */
-
-    /* min-height reserves room for the finished note, so the card
-       doesn't grow line by line while the text is being typed */
-    .note {
-      margin-top: 16px;
-      padding: 20px;
-      min-height: 480px;
-      text-align: left;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.045);
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      font-size: 15px;
-      line-height: 1.55;
-      white-space: pre-line;
-      color: #f2e6f2;
-    }
-
-    /* the note is the tallest screen — keep it on one screenful */
-    #screenNote .beat { font-size: 52px; }
-
-    .cursor {
-      display: inline-block;
-      width: 2px;
-      height: 17px;
-      margin-left: 2px;
-      vertical-align: middle;
-      background: var(--accent);
-      animation: blink 0.7s infinite;
-    }
-
-    .cursor.done { display: none; }
-
-    @keyframes blink { 50% { opacity: 0; } }
-
-
-    /* =====================================================
-       BIRTHDAY WISHES
-    ===================================================== */
-
-    .wishes {
-      display: grid;
-      gap: 8px;
-      margin-top: 20px;
-      text-align: left;
-    }
-
-    .wishes div {
-      display: flex;
-      gap: 11px;
-      align-items: flex-start;
-      padding: 11px 15px;
-      border-radius: 15px;
-      font-size: 14.5px;
-      line-height: 1.45;
-      color: #ecdcec;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid hsl(var(--h) 90% 70% / 0.18);
-    }
-
-    .wishes span {
-      font-size: 17px;
-      line-height: 1.25;
-    }
-
-
-    /* =====================================================
-       FLOATERS / CONFETTI / TOAST
-    ===================================================== */
-
-    .floater {
-      position: fixed;
-      bottom: -40px;
-      z-index: 5;
-      pointer-events: none;
-      animation: rise-up 6s linear forwards;
-    }
-
-    @keyframes rise-up {
-      to { transform: translateY(-112vh) rotate(360deg); opacity: 0; }
-    }
-
-    .confetti {
-      position: fixed;
-      top: -30px;
-      z-index: 35;
-      pointer-events: none;
-      animation: fall 3.6s linear forwards;
-    }
-
-    @keyframes fall {
-      to { transform: translateY(112vh) rotate(720deg); opacity: 0; }
-    }
-
-    .spark {
-      position: fixed;
-      z-index: 45;
-      pointer-events: none;
-      animation: spark 0.9s ease-out forwards;
-    }
-
-    @keyframes spark {
-      to { transform: translate(var(--x), var(--y)) scale(0.2); opacity: 0; }
-    }
-
-    .toast {
-      position: fixed;
-      top: 22px;
-      left: 50%;
-      z-index: 60;
-      max-width: 86vw;
-      padding: 12px 20px;
-      border-radius: 40px;
-      font-size: 14.5px;
-      color: #fff;
-      background: hsl(var(--h) 60% 20% / 0.85);
-      border: 1px solid hsl(var(--h) 90% 70% / 0.4);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
-      transform: translate(-50%, -26px);
-      opacity: 0;
-      pointer-events: none;
-      transition: 0.4s cubic-bezier(.2, 1.5, .4, 1);
-    }
-
-    .toast.show { transform: translate(-50%, 0); opacity: 1; }
-
-    .surprise-btn {
-      position: fixed;
-      right: 16px;
-      bottom: 34px;
-      z-index: 50;
-      width: 50px;
-      height: 50px;
-      padding: 0;
-      font-size: 22px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 1px solid hsl(var(--h) 90% 70% / 0.4);
-      background: hsl(var(--h) 60% 22% / 0.7);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 26px hsl(var(--h) 90% 55% / 0.45);
-      transition: transform 0.25s;
-      animation: nudge 3.5s ease-in-out infinite;
-    }
-
-    .surprise-btn:hover { transform: scale(1.12); }
-
-
-    /* =====================================================
-       MOBILE
-    ===================================================== */
-
-    @media (max-width: 600px) {
-      .card { padding: 28px 18px; max-height: 86vh; }
-      h1 { font-size: 32px; }
-      h2 { font-size: 23px; }
-      p  { font-size: 15px; }
-      .orb { width: 96px; height: 96px; }
-      .orb span { font-size: 46px; }
-      .beat { font-size: 62px; }
-      .count b { font-size: 26px; }
-      .cake { transform: scale(0.9); }
-      .note { font-size: 14.5px; min-height: 440px; }
-      .wishes div { font-size: 14px; padding: 10px 13px; }
-    }
-
-
-    /* =====================================================
-       REDUCED MOTION
-    ===================================================== */
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sukhadia Foods — Six Generations of Gujarati Sweets & Farsan | Vadodara</title>
+<meta name="description" content="Sukhadia Foods, Vadodara. Six generations of Gujarati sweet and farsan making — from Khambhat to Alkapuri. Kaju Katli, Halvason, Suterfeni, Bhakharwadi, Khakhra and more. WhatsApp us for international orders.">
+<meta name="theme-color" content="#5E1220">
+<link rel="canonical" href="https://sukhadiafoods.com/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sukhadia Foods">
+<meta property="og:title" content="Sukhadia Foods — Six Generations of Gujarati Sweets & Farsan">
+<meta property="og:description" content="From a parrot in Khambhat to a counter in Vadodara — six generations of sweets, farsan and khakhra.">
+<meta property="og:image" content="assets/images/hero-main.jpg">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-normal-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/instrument-sans-normal-latin.woff2" crossorigin>
+<link rel="preload" as="image" href="assets/images/hero-main.jpg" fetchpriority="high">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%235E1220'/><circle cx='50' cy='38' r='15' fill='%23E5B769'/><ellipse cx='54' cy='64' rx='19' ry='22' fill='%23E5B769'/><path d='M35 36c-8 2-11 8-9 13 3-4 7-5 11-5-2-3-2-5-2-8z' fill='%23E5B769'/><circle cx='45' cy='34' r='3' fill='%235E1220'/></svg>">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Bakery",
+  "name": "Sukhadia Foods",
+  "description": "Manufacturer and retailer of Indian sweets, farsan, khakhra and namkeen in Vadodara, Gujarat.",
+  "telephone": ["+917046164064", "+912652342872"],
+  "email": "sukhadiasweetsbaroda@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Ground Floor, Bihari Apartments, Welcome Hotel Lane, R.C Dutt Road, Alkapuri",
+    "addressLocality": "Vadodara",
+    "addressRegion": "Gujarat",
+    "postalCode": "390007",
+    "addressCountry": "IN"
+  },
+  "servesCuisine": "Indian",
+  "currenciesAccepted": "INR"
+}
+</script>
 </head>
 
+<body data-page="shop">
+<a class="skip-link" href="#main">Skip to content</a>
 
-<body>
-
-  <!-- BACKGROUND -->
-  <div class="bg" id="bg">
-    <div class="blob one"></div>
-    <div class="blob two"></div>
+<!-- ══════════ ANNOUNCEMENT BAR ══════════ -->
+<div class="announce" id="announce" role="region" aria-label="Announcement">
+  <div class="announce__track">
+    <p class="announce__text">
+      <span class="announce__dot" aria-hidden="true"></span>
+      Authentic Gujarati sweets &amp; farsan — crafted with tradition since Khambhat
+    </p>
+    <a class="announce__cta" href="https://wa.me/917046164064" target="_blank" rel="noopener">
+      Ordering from abroad? WhatsApp us
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-xs"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
   </div>
+  <button class="announce__close" id="announceClose" aria-label="Dismiss announcement">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+</div>
 
-  <!-- PROGRESS -->
-  <div class="progress">
-    <div class="progress-fill" id="progressFill"></div>
+<!-- ══════════ HEADER ══════════ -->
+<header class="hdr" id="hdr">
+  <div class="hdr__inner">
+    <button class="hdr__burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a class="brand" href="#/shop" aria-label="Sukhadia Foods — home">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 120 120">
+          <g fill="currentColor">
+            <path d="M56 74c-4 14-16 26-34 34 12-12 20-22 24-36z"/>
+            <ellipse cx="64" cy="62" rx="22" ry="26"/>
+            <circle cx="60" cy="34" r="16"/>
+            <path d="M60 18c-2-8 2-12 8-14-2 6-2 10-3 15z"/>
+            <path d="M45 32c-9 2-13 8-11 14 4-4 8-5 12-5-2-3-2-6-1-9z"/>
+          </g>
+          <path d="M66 48c12 4 16 18 8 32-4-12-6-22-8-32z" fill="rgba(255,255,255,.30)"/>
+          <circle cx="55" cy="30" r="3.4" fill="#FBF6EC"/>
+          <path d="M56 86v10M70 86v10M30 98h64" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        </svg>
+      </span>
+      <span class="brand__type">
+        <span class="brand__name">Sukhadia</span>
+        <span class="brand__sub">Foods · Vadodara</span>
+      </span>
+    </a>
+
+    <nav class="hdr__nav" aria-label="Primary">
+      <a href="#shop" data-cat="all">Shop All</a>
+      <a href="#shop" data-cat="Sweets">Sweets</a>
+      <a href="#shop" data-cat="Farsan">Farsan</a>
+      <a href="#shop" data-cat="Khakhra">Khakhra</a>
+      <a href="#shop" data-cat="Dry Fruits">Dry Fruits</a>
+      <a href="#heritage">Our Story</a>
+      <a href="#gifting">Gifting</a>
+    </nav>
+
+    <div class="hdr__acts">
+      <button class="iconbtn" id="searchOpen" aria-label="Search products">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button class="iconbtn hide-sm" id="acctBtn" aria-label="Account">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20c1.4-4 4.2-6 7.5-6s6.1 2 7.5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button class="iconbtn hide-sm" id="wishBtn" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7.2-4.6-7.2-9.4A4.1 4.1 0 0 1 12 8.2a4.1 4.1 0 0 1 7.2 2.4C19.2 15.4 12 20 12 20z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        <span class="badge" id="wishBadge" hidden>0</span>
+      </button>
+      <button class="iconbtn" id="cartBtn" aria-label="Open cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1.1 11.2a1.6 1.6 0 0 1-1.6 1.4H8.7a1.6 1.6 0 0 1-1.6-1.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.2 8V6.4a2.8 2.8 0 0 1 5.6 0V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span class="badge" id="cartBadge" hidden>0</span>
+      </button>
+    </div>
   </div>
+</header>
 
+<!-- ══════════ MOBILE NAV ══════════ -->
+<div class="mnav" id="mobileNav" aria-hidden="true">
+  <div class="mnav__panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="mnav__top">
+      <span class="mnav__ttl">Menu</span>
+      <button class="iconbtn" id="mnavClose" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <nav class="mnav__links" aria-label="Mobile">
+      <a href="#shop" data-cat="all"><span>Shop All</span><em data-count="all"></em></a>
+      <a href="#shop" data-cat="Sweets"><span>Sweets</span><em data-count="Sweets"></em></a>
+      <a href="#shop" data-cat="Farsan"><span>Farsan</span><em data-count="Farsan"></em></a>
+      <a href="#shop" data-cat="Khakhra"><span>Khakhra</span><em data-count="Khakhra"></em></a>
+      <a href="#shop" data-cat="Dry Fruits"><span>Dry Fruits</span><em data-count="Dry Fruits"></em></a>
+      <a href="#heritage"><span>Our Story</span></a>
+      <a href="#gifting"><span>Gifting</span></a>
+      <a href="#intl"><span>International Orders</span></a>
+      <a href="#contact"><span>Contact</span></a>
+    </nav>
+    <div class="mnav__foot">
+      <a class="btn btn--wa btn--full" href="https://wa.me/917046164064" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" class="ico-sm" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.9-1c.2-.2.3-.2.6-.1l2 .9c.3.1.5.2.5.3.1.2.1.7-.1 1.1z"/></svg>
+        WhatsApp Us
+      </a>
+      <p class="mnav__addr">R.C Dutt Road, Alkapuri, Vadodara</p>
+    </div>
+  </div>
+  <div class="mnav__scrim" data-close-mnav></div>
+</div>
 
-  <div class="stage">
-    <div class="card" id="card">
+<!-- ══════════ SEARCH OVERLAY ══════════ -->
+<div class="srch" id="srch" aria-hidden="true">
+  <div class="srch__box" role="dialog" aria-modal="true" aria-label="Search products">
+    <div class="srch__field">
+      <svg viewBox="0 0 24 24" class="ico-sm" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <input type="search" id="srchInput" placeholder="Search kaju katli, bhakharwadi, khakhra…" aria-label="Search products" autocomplete="off">
+      <button class="iconbtn" id="srchClose" aria-label="Close search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="srch__quick" id="srchQuick">
+      <span class="srch__lbl">Popular</span>
+      <button class="chip" data-q="Kaju Katli">Kaju Katli</button>
+      <button class="chip" data-q="Bhakharwadi">Bhakharwadi</button>
+      <button class="chip" data-q="Khakhra">Khakhra</button>
+      <button class="chip" data-q="Chavanu">Chavanu</button>
+      <button class="chip" data-q="Halvason">Halvason</button>
+    </div>
+    <div class="srch__results" id="srchResults" aria-live="polite"></div>
+  </div>
+  <div class="srch__scrim" data-close-srch></div>
+</div>
 
+<main id="main">
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--                    VIEW: STOREFRONT                        -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="view" id="view-shop">
 
-      <!-- INTRO ---------------------------------------- -->
-      <section class="screen active" data-hue="330" data-nav="off">
-
-        <div class="chip">Something small, for you</div>
-
-        <div class="gift" id="gift" onclick="openGift()">
-          <div class="gift-box"></div>
-          <div class="gift-lid"></div>
-          <div class="gift-bow">🎀</div>
-        </div>
-
-        <h1>Hey Diyu&nbsp;<span class="emoji">👀</span></h1>
-
-        <p>
-          A plain <span class="hl">"Happy Birthday"</span> felt far too small for you.
-          <br>
-          So I wrote down our whole story instead.
-          <br>
-          Go on — tap the box. 🎁
+  <!-- ═════ HERO ═════ -->
+  <section class="hero" id="top">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__inner">
+      <div class="hero__copy">
+        <p class="eyebrow eyebrow--gold reveal">
+          <span class="eyebrow__rule"></span>Khambhat · Vadodara · Since six generations
         </p>
-
-        <div class="tiny">8 chapters · 27 days · 1 birthday 🎂</div>
-
-      </section>
-
-
-      <!-- CHAPTER 1 ------------------------------------ -->
-      <section class="screen" data-hue="350" data-next="And then... 🍫">
-        <div class="chip">Sunday, 24 May 2026</div>
-        <div class="orb"><span>📱</span></div>
-        <h2>One message. That's all it took.</h2>
-        <p>Out of everyone on Instagram — somehow, it was you and me.</p>
-        <p>Two strangers, one message, and a story neither of us saw coming.</p>
-      </section>
-
-
-      <!-- CHAPTER 2 ------------------------------------ -->
-      <section class="screen" data-hue="285" data-next="The next day... ☕">
-        <div class="chip">Saturday, 30 May 2026</div>
-        <div class="orb"><span>🍫</span></div>
-        <h2>We met at the medical shop</h2>
-        <p>Only a few minutes there — and I still remember every one of them.</p>
-        <p>An ordinary Saturday, right up until you walked in.</p>
-      </section>
-
-
-      <!-- CHAPTER 3 ------------------------------------ -->
-      <section class="screen" data-hue="255" data-next="A few days later... 🌙">
-        <div class="chip">Sunday, 31 May 2026</div>
-        <div class="orb"><span>☕</span></div>
-        <h2>Santushti Shakes 🥤, EME Temple &amp; Gajraj Cafe at Sursagar</h2>
-        <p>Standing beside you, hands folded, with Fatehgunj quiet all around us.</p>
-        <p>A new temple to discover with you, and not one single reason to go home.</p>
-        <p>The city kept moving. We didn't.</p>
-      </section>
-
-
-      <!-- CHAPTER 4 ------------------------------------ -->
-      <section class="screen" data-hue="265" data-next="The next day... 🚉">
-        <div class="chip">Friday, 05 June 2026</div>
-        <div class="orb"><span>🌙</span></div>
-        <h2>"Just to see your face and pass the time" 😄</h2>
-        <p>You picked me up from my parking spot on your scooter 🛵. No plan, no destination.</p>
-        <p>Just the road, the two of us, and a night in no hurry to end.</p>
-      </section>
-
-
-      <!-- CHAPTER 5 ------------------------------------ -->
-      <section class="screen" data-hue="150" data-next="Now the best one... 🤗">
-        <div class="chip">Saturday, 06 June 2026</div>
-        <div class="orb"><span>🚉</span></div>
-        <h2>Pratapnagar Station &amp; Sayaji Garden</h2>
-        <p>We booked Ujjain tickets at Pratapnagar Station. Mahakal Darshan.</p>
-        <p>Then Sayaji Garden, where we talked about all the things that actually matter.</p>
-        <p>But the moment I kept is the smallest one — you, putting sunscreen on my face. ❤️</p>
-      </section>
-
-
-      <!-- CHAPTER 6 ------------------------------------ -->
-      <section class="screen" data-hue="340" data-next="Food day 🍜">
-        <div class="chip">Sunday, 07 June 2026</div>
-        <div class="orb"><span>🤗</span></div>
-        <h2>Our first hug ❤️</h2>
-        <p>I came to your home for katha prasad. I left with a date I'll never need a reminder for.</p>
-        <p>A few seconds long. Somehow still the best part of my year.</p>
-      </section>
-
-
-      <!-- CHAPTER 7 ------------------------------------ -->
-      <section class="screen" data-hue="30" data-next="One more... 🍫">
-        <div class="chip">Friday, 12 June 2026</div>
-        <div class="orb"><span>🍜</span></div>
-        <h2>Maggi + gulab jamun 🍮, Kayak's Cafe &amp; Tapovan Temple</h2>
-        <p>I took the whole day off, just for you. Maggi, gulab jamun, Kayak's Cafe — and one more new temple to find together, Tapovan.</p>
-        <p>A whole day with you, and it still felt too short. ❤️</p>
-      </section>
-
-
-      <!-- CHAPTER 8 ------------------------------------ -->
-      <section class="screen" data-hue="310" data-next="See it all together 💫">
-        <div class="chip">Saturday, 20 June 2026</div>
-        <div class="orb"><span>🍫</span></div>
-        <h2>You said no. I came anyway.</h2>
-        <p>Report day at Yogini Hospital. You told me not to come.</p>
-        <p>I waited across from Navapura Police Station with chocolate, because I knew those days were heavy for you.</p>
-        <p>That's the day your world and my world stopped being two separate things.</p>
-      </section>
-
-
-      <!-- RECAP ---------------------------------------- -->
-      <section class="screen" id="screenRecap" data-hue="320" data-next="But first, about you 💗">
-
-        <div class="chip">Our story so far</div>
-
-        <div class="counters">
-          <div class="count"><b data-to="27">0</b><i>Days</i></div>
-          <div class="count"><b data-to="8">0</b><i>Chapters</i></div>
-          <div class="count"><b data-to="1">0</b><i>Story</i></div>
-        </div>
-
-        <div class="mini">
-          <div><b>24 May</b> · 📱 One Instagram message</div>
-          <div><b>30 May</b> · 🍫 The medical shop — our first look</div>
-          <div><b>31 May</b> · 🥤 Santushti Shakes · 🛕 EME Temple · ☕ Gajraj at Sursagar</div>
-          <div><b>05 Jun</b> · 🌙 The "time pass" night ride</div>
-          <div><b>06 Jun</b> · 🚉 Ujjain tickets booked · 🌳 Sayaji Garden</div>
-          <div><b>07 Jun</b> · 🤗 Katha prasad... and our first hug</div>
-          <div><b>12 Jun</b> · 🍜 Maggi · ☕ Kayak's Cafe · 🛕 Tapovan Temple</div>
-          <div><b>20 Jun</b> · 🍫 Yogini Hospital — waiting across the road</div>
-        </div>
-
-        <div class="tiny" id="sinceLine"></div>
-
-      </section>
-
-
-      <!-- WHO YOU ARE ---------------------------------- -->
-      <section class="screen" id="screenYou" data-hue="200" data-next="Now... it's your day 🎂">
-
-        <div class="chip">Before the cake</div>
-
-        <h2>Things I'm not going to stop saying</h2>
-
-        <div class="wishes">
-          <div><span>🧴</span>You look after people before you look after yourself</div>
-          <div><span>🛵</span>You say yes to things — no plan needed</div>
-          <div><span>🪔</span>You let people in, and that's braver than it sounds</div>
-          <div><span>☀️</span>Even on your heavy days, you still showed up</div>
-          <div><span>😄</span>You laugh at your own jokes, and it's my favourite sound</div>
-        </div>
-
-      </section>
-
-
-      <!-- CAKE ----------------------------------------- -->
-      <section class="screen" id="screenCake" data-hue="335" data-nav="off">
-
-        <div class="chip">Tuesday, 18 August 2026</div>
-
-        <div class="cake-wrap">
-          <div class="cake" onclick="blowCandles()">
-            <div class="candle"><div class="flame"></div></div>
-            <div class="candle"><div class="flame"></div></div>
-            <div class="candle"><div class="flame"></div></div>
-          </div>
-        </div>
-
-        <h1>Happy Birthday, Diyu&nbsp;<span class="emoji">❤️</span></h1>
-
-        <p>
-          It's finally your day.
-          <br>
-          Close your eyes, make a wish — a big one —
-          <br>
-          and blow out the candles. ✨
+        <h1 class="hero__h1 reveal" style="--d:.06s">
+          Six generations<br>of <em>sweet</em> traditions
+        </h1>
+        <p class="hero__sub reveal" style="--d:.12s">
+          The mithai, farsan and khakhra a Gujarati family has been making by hand —
+          carried from a shop in Khambhat to our counter on R.C Dutt Road.
         </p>
-
-        <button class="btn" type="button" id="wishBtn" onclick="blowCandles()">Blow out the candles 🕯️</button>
-
-      </section>
-
-
-      <!-- BIRTHDAY WISHES ------------------------------ -->
-      <section class="screen" id="screenWishes" data-hue="45" data-nav="off">
-
-        <div class="chip">My wishes for you</div>
-
-        <h2>This year, I hope you get...</h2>
-
-        <div class="wishes">
-          <div><span>🌤️</span>Days lighter than the ones behind you</div>
-          <div><span>💪</span>Every win you've been quietly working for</div>
-          <div><span>😌</span>Rest, without the guilt</div>
-          <div><span>🍜</span>Maggi at midnight, whenever you want it</div>
-          <div><span>🛕</span>New temples, new roads, new firsts</div>
-          <div><span>❤️</span>To be loved as loudly as you love</div>
+        <div class="hero__acts reveal" style="--d:.18s">
+          <a class="btn btn--primary btn--lg" href="#bestsellers">
+            Shop Bestsellers
+            <svg viewBox="0 0 24 24" class="ico-sm" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn--ghost btn--lg" href="#heritage">Discover our story</a>
         </div>
-
-        <div class="nav">
-          <button class="btn" type="button" onclick="next()">One more thing 💌</button>
-        </div>
-
-      </section>
-
-
-      <!-- NOTE ----------------------------------------- -->
-      <section class="screen" id="screenNote" data-hue="325" data-nav="off">
-
-        <div class="beat">💖</div>
-
-        <div class="note"><span id="noteText"></span><span class="cursor" id="noteCursor"></span></div>
-
-        <div class="nav">
-          <button class="btn ghost" type="button" id="skipBtn" onclick="skipTyping()">Skip ⏩</button>
-          <button class="btn" type="button" id="noteNext" onclick="next()" style="display:none">One last thing ❤️</button>
-        </div>
-
-      </section>
-
-
-      <!-- FINAL ---------------------------------------- -->
-      <section class="screen" id="screenFinal" data-hue="330" data-nav="off">
-
-        <div class="beat">💗</div>
-
-        <h1>Happy Birthday, Diyu&nbsp;<span class="emoji">🎂</span></h1>
-
-        <p>
-          Here's to more smiles, more wins, and more silly no-plan days.
-          <br>
-          And to many more dates worth adding to
-          <span class="hl">our little list</span>. 💕
-        </p>
-
-        <p>You turned 27 days into a whole story. Let's go write the rest of it.</p>
-
-
-        <div class="nav">
-          <button class="btn ghost" type="button" onclick="replay()">Read it again ↺</button>
-        </div>
-
-      </section>
-
-
-      <!-- SHARED NAV (used by every screen without data-nav="off") -->
-      <div class="nav" id="nav" style="display:none">
-        <button class="btn ghost" type="button" onclick="back()">←</button>
-        <button class="btn" type="button" id="nextBtn" onclick="next()">Next ✨</button>
+        <ul class="hero__trust reveal" style="--d:.24s">
+          <li>Traditional recipes</li>
+          <li>Premium ingredients</li>
+          <li>Crafted with care</li>
+        </ul>
       </div>
 
+      <div class="hero__art">
+        <figure class="hero__frame" data-parallax="0.05">
+          <img src="assets/images/hero-main.jpg" alt="A counter display of freshly made Indian sweets" width="1100" height="1450" fetchpriority="high" decoding="async">
+          <figcaption class="repl">Replace with official Sukhadia Foods photography</figcaption>
+        </figure>
+        <figure class="hero__frame hero__frame--sm" data-parallax="-0.08">
+          <img src="assets/images/p-kaju-katli.jpg" alt="Kaju katli diamonds" width="900" height="900" loading="lazy" decoding="async">
+        </figure>
+        <div class="hero__seal" aria-hidden="true">
+          <svg viewBox="0 0 200 200">
+            <defs><path id="sealArc" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/></defs>
+            <text class="hero__sealtext"><textPath href="#sealArc" startOffset="0" textLength="452" lengthAdjust="spacing">SUKHADIA FOODS · EST. KHAMBHAT · VADODARA ·</textPath></text>
+          </svg>
+          <span class="hero__sealmark">
+            <svg viewBox="0 0 120 120"><g fill="currentColor"><path d="M56 74c-4 14-16 26-34 34 12-12 20-22 24-36z"/><ellipse cx="64" cy="62" rx="22" ry="26"/><circle cx="60" cy="34" r="16"/><path d="M60 18c-2-8 2-12 8-14-2 6-2 10-3 15z"/><path d="M45 32c-9 2-13 8-11 14 4-4 8-5 12-5-2-3-2-6-1-9z"/></g><circle cx="55" cy="30" r="3.4" fill="#5E1220"/><path d="M56 86v10M70 86v10M30 98h64" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+    <a class="hero__scroll" href="#categories" aria-label="Scroll to categories">
+      <span></span>
+    </a>
+  </section>
 
+  <!-- ═════ MARQUEE ═════ -->
+  <div class="mq" aria-hidden="true">
+    <div class="mq__track">
+      <span>Kaju Katli</span><i>✦</i><span>Halvason</span><i>✦</i><span>Suterfeni</span><i>✦</i>
+      <span>Butter Bhakharwadi</span><i>✦</i><span>Surti Chavanu</span><i>✦</i><span>Nylon Chana Chor</span><i>✦</i>
+      <span>Panipuri Khakhra</span><i>✦</i><span>Motichoor Ladoo</span><i>✦</i><span>Roasted Kaju</span><i>✦</i>
+      <span>Kaju Katli</span><i>✦</i><span>Halvason</span><i>✦</i><span>Suterfeni</span><i>✦</i>
+      <span>Butter Bhakharwadi</span><i>✦</i><span>Surti Chavanu</span><i>✦</i><span>Nylon Chana Chor</span><i>✦</i>
+      <span>Panipuri Khakhra</span><i>✦</i><span>Motichoor Ladoo</span><i>✦</i><span>Roasted Kaju</span><i>✦</i>
     </div>
   </div>
 
-
-  <div class="dots" id="dots"></div>
-
-  <div class="toast" id="toast"></div>
-
-  <button class="surprise-btn" type="button" onclick="surprise()" title="Tap me">🎁</button>
-
-
-  <script>
-
-    /* =====================================================
-       STARS
-    ===================================================== */
-
-    const bg = document.getElementById("bg");
-
-    for (let i = 0; i < 70; i++) {
-      const s = document.createElement("div");
-      s.className = "star";
-      s.style.left = Math.random() * 100 + "vw";
-      s.style.top = Math.random() * 100 + "vh";
-      s.style.animationDelay = Math.random() * 3 + "s";
-      bg.appendChild(s);
-    }
-
-
-    /* =====================================================
-       NAVIGATION
-    ===================================================== */
-
-    const card = document.getElementById("card");
-    const screens = Array.from(document.querySelectorAll(".screen"));
-    const progressFill = document.getElementById("progressFill");
-    const dotsWrap = document.getElementById("dots");
-    const navRow = document.getElementById("nav");
-    const nextBtn = document.getElementById("nextBtn");
-    const root = document.documentElement;
-
-    /* last screen that still counts as part of the story — used to decide
-       where the little heart burst on every page change should stop */
-    const recapIndex = screens.findIndex(s => s.id === "screenRecap");
-
-    let current = 0;
-
-
-    /* one dot per screen */
-    screens.forEach((_, i) => {
-      const d = document.createElement("button");
-      d.className = "dot";
-      d.type = "button";
-      d.setAttribute("aria-label", "Go to page " + (i + 1));
-      d.onclick = () => go(i);
-      dotsWrap.appendChild(d);
-    });
-
-    const dots = Array.from(dotsWrap.children);
-
-
-    function go(index) {
-
-      index = Math.max(0, Math.min(screens.length - 1, index));
-      if (index === current) return;
-
-      /* stop the note from typing itself in the background */
-      clearTimeout(typeTimer);
-
-      screens[current].classList.remove("active");
-      current = index;
-
-      const screen = screens[current];
-      screen.classList.add("active");
-
-      /* accent hue shift — every chapter feels different */
-      root.style.setProperty("--h", screen.dataset.hue || 330);
-
-      /* progress bar + dots */
-      progressFill.style.width = (current / (screens.length - 1)) * 100 + "%";
-      dots.forEach((d, i) => d.classList.toggle("on", i === current));
-
-      /* shared next/back row */
-      if (screen.dataset.nav === "off") {
-        navRow.style.display = "none";
-      } else {
-        navRow.style.display = "flex";
-        nextBtn.textContent = screen.dataset.next || "Next ✨";
-      }
-
-      card.scrollTop = 0;
-
-      /* per-screen hooks */
-      if (screen.id === "screenRecap") countUp();
-      if (screen.id === "screenWishes") confetti(30);
-      if (screen.id === "screenNote") startTyping();
-      if (screen.id === "screenFinal") celebrate();
-
-      if (current > 0 && current <= recapIndex) {
-        burst(innerWidth / 2, innerHeight / 2, 10);
-      }
-    }
-
-    function next() { go(current + 1); }
-    function back() { go(current - 1); }
-
-    function replay() {
-      resetGift();
-      relight();
-      go(0);
-      progressFill.style.width = "0%";
-    }
-
-    /* initial state (go() early-returns on the screen we're already on) */
-    dots[0].classList.add("on");
-    root.style.setProperty("--h", screens[0].dataset.hue);
-
-
-    /* the recap line counts up from the very first message, so it stays
-       true however long after her birthday she opens this again */
-    const FIRST_MESSAGE = new Date(2026, 4, 24);   /* 24 May 2026 */
-
-    (function showDaysSince() {
-      const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const days = Math.max(0, Math.round((today - FIRST_MESSAGE) / 86400000));
-      document.getElementById("sinceLine").textContent =
-        "27 days started it · " + days + " days and counting";
-    })();
-
-
-    /* keyboard + swipe */
-
-    addEventListener("keydown", e => {
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") back();
-    });
-
-    let sx = 0, sy = 0;
-
-    card.addEventListener("touchstart", e => {
-      sx = e.changedTouches[0].clientX;
-      sy = e.changedTouches[0].clientY;
-    }, { passive: true });
-
-    card.addEventListener("touchend", e => {
-      const dx = e.changedTouches[0].clientX - sx;
-      const dy = e.changedTouches[0].clientY - sy;
-      if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-      dx < 0 ? next() : back();
-    }, { passive: true });
-
-
-    /* card tilt (pointer devices only) */
-
-    if (matchMedia("(hover: hover)").matches) {
-      addEventListener("mousemove", e => {
-        const x = (e.clientX / innerWidth - 0.5) * 2;
-        const y = (e.clientY / innerHeight - 0.5) * 2;
-        card.style.transform = `rotateY(${x * 4}deg) rotateX(${-y * 4}deg)`;
-      });
-    }
-
-
-    /* =====================================================
-       GIFT BOX
-    ===================================================== */
-
-    const gift = document.getElementById("gift");
-
-    function openGift() {
-      if (gift.classList.contains("open")) return;
-      gift.classList.add("open");
-
-      const r = gift.getBoundingClientRect();
-      burst(r.left + r.width / 2, r.top + r.height / 2, 26);
-      confetti(45);
-
-      setTimeout(next, 850);
-    }
-
-    /* close the box again so "Read it again" starts from a fresh intro */
-    function resetGift() {
-      gift.classList.remove("open");
-    }
-
-
-    /* =====================================================
-       COUNTERS
-    ===================================================== */
-
-    let counted = false;
-
-    function countUp() {
-      if (counted) return;
-      counted = true;
-
-      document.querySelectorAll("#screenRecap .count b").forEach(el => {
-        const to = +el.dataset.to;
-        let n = 0;
-        const step = () => {
-          n += Math.max(1, Math.ceil(to / 22));
-          el.textContent = n >= to ? to : n;
-          if (n < to) requestAnimationFrame(step);
-        };
-        step();
-      });
-    }
-
-
-    /* =====================================================
-       CANDLES
-    ===================================================== */
-
-    let blown = false;
-
-    function blowCandles() {
-      if (blown) return;
-      blown = true;
-
-      document.querySelectorAll(".flame").forEach((f, i) => {
-        setTimeout(() => f.classList.add("out"), i * 260);
-      });
-
-      document.getElementById("wishBtn").disabled = true;
-
-      setTimeout(() => {
-        toast("Wish locked in. I hope it comes true. 🤞✨");
-        celebrate();
-      }, 800);
-
-      setTimeout(next, 2200);
-    }
-
-    /* put the candles back for a second read-through */
-    function relight() {
-      blown = false;
-      counted = false;
-      document.querySelectorAll(".flame").forEach(f => f.classList.remove("out"));
-      document.getElementById("wishBtn").disabled = false;
-    }
-
-
-    /* =====================================================
-       TYPED NOTE
-    ===================================================== */
-
-    const note = `Diyu ❤️
-
-It's your birthday, so I'll say
-the thing I usually keep quiet.
-
-In 27 days you went from a name
-on my screen to one of my
-favourite people in the world.
-
-Not one big moment did that.
-It was temples, night rides, Maggi,
-sunscreen, and laughing at nothing.
-
-Whatever this year brings you,
-I hope you never face any of it
-on your own.
-
-Happy birthday, Diyu. 🎂
-Be as happy as you make me.`;
-
-    const chars = Array.from(note);
-    let typeTimer = null;
-
-    function startTyping() {
-      const textEl = document.getElementById("noteText");
-      const cursor = document.getElementById("noteCursor");
-      const skip = document.getElementById("skipBtn");
-      const cont = document.getElementById("noteNext");
-
-      clearTimeout(typeTimer);
-      textEl.textContent = "";
-      cursor.classList.remove("done");
-      skip.style.display = "inline-block";
-      cont.style.display = "none";
-
-      let i = 0;
-
-      (function type() {
-        if (i >= chars.length) return endTyping();
-        const c = chars[i++];
-        textEl.textContent += c;
-        card.scrollTop = card.scrollHeight;   /* keep the newest line in view */
-        typeTimer = setTimeout(type, c === "\n" ? 40 : 22);
-      })();
-    }
-
-    /* show the whole note straight away */
-    function skipTyping() {
-      clearTimeout(typeTimer);
-      document.getElementById("noteText").textContent = note;
-      card.scrollTop = card.scrollHeight;
-      endTyping();
-    }
-
-    /* hide the cursor and swap Skip for the last button */
-    function endTyping() {
-      document.getElementById("noteCursor").classList.add("done");
-      document.getElementById("skipBtn").style.display = "none";
-      document.getElementById("noteNext").style.display = "inline-block";
-    }
-
-
-    /* =====================================================
-       EFFECTS
-    ===================================================== */
-
-    const HEARTS = ["❤️", "💖", "💕", "💗", "✨", "🎉", "🎂", "🎈", "🥳", "⭐", "🌸"];
-
-    function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
-
-
-    /* small particle burst at a point */
-    function burst(x, y, count) {
-      for (let i = 0; i < count; i++) {
-        const p = document.createElement("div");
-        p.className = "spark";
-        p.textContent = pick(HEARTS);
-        p.style.left = x + "px";
-        p.style.top = y + "px";
-        p.style.fontSize = 10 + Math.random() * 18 + "px";
-        p.style.setProperty("--x", (Math.random() - 0.5) * 320 + "px");
-        p.style.setProperty("--y", (Math.random() - 0.5) * 320 + "px");
-        document.body.appendChild(p);
-        setTimeout(() => p.remove(), 1000);
-      }
-    }
-
-
-    /* emoji raining down from the top of the screen */
-    function confetti(count) {
-      for (let i = 0; i < count; i++) {
-        const c = document.createElement("div");
-        c.className = "confetti";
-        c.textContent = pick(HEARTS);
-        c.style.left = Math.random() * 100 + "vw";
-        c.style.fontSize = 12 + Math.random() * 20 + "px";
-        c.style.animationDuration = 2 + Math.random() * 3 + "s";
-        c.style.animationDelay = Math.random() * 1.4 + "s";
-        document.body.appendChild(c);
-        setTimeout(() => c.remove(), 7000);
-      }
-    }
-
-
-    /* the big moment: confetti falling and hearts floating up */
-    function celebrate() {
-      confetti(90);
-
-      for (let i = 0; i < 34; i++) {
-        const h = document.createElement("div");
-        h.className = "floater";
-        h.textContent = pick(HEARTS);
-        h.style.left = Math.random() * 100 + "vw";
-        h.style.fontSize = 15 + Math.random() * 24 + "px";
-        h.style.animationDuration = 4 + Math.random() * 4 + "s";
-        h.style.animationDelay = Math.random() * 1.6 + "s";
-        document.body.appendChild(h);
-        setTimeout(() => h.remove(), 10000);
-      }
-    }
-
-
-    /* tap anywhere for a tiny heart burst */
-    addEventListener("pointerdown", e => burst(e.clientX, e.clientY, 5));
-
-
-    /* a gentle heart drifting up every couple of seconds */
-    setInterval(() => {
-      if (document.hidden) return;
-      const h = document.createElement("div");
-      h.className = "floater";
-      h.textContent = Math.random() > 0.5 ? "❤️" : "💕";
-      h.style.left = Math.random() * 100 + "vw";
-      h.style.fontSize = 16 + Math.random() * 16 + "px";
-      document.body.appendChild(h);
-      setTimeout(() => h.remove(), 6500);
-    }, 1800);
-
-
-    /* =====================================================
-       TOAST + SURPRISE BUTTON
-    ===================================================== */
-
-    const toastEl = document.getElementById("toast");
-    let toastTimer = null;
-
-    function toast(msg) {
-      toastEl.textContent = msg;
-      toastEl.classList.add("show");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2800);
-    }
-
-
-    /* one line per tap of the 🎁 button, in order, then it loops */
-    const LINES = [
-      "Fact: 24 May was Instagram's finest work ever. 📱",
-      "Somewhere, a plate of Maggi is missing you. 🍜",
-      "You laugh at your own jokes. It's adorable. 😄",
-      "Even the gulab jamun agrees — you're the sweetest one here. 🍮",
-      "Warning: extremely special person detected. ✨",
-      "This button is simply a Diyu appreciation machine. 💗",
-      "One message. 27 days. I still can't believe it. ❤️",
-      "Officially the best 18th of August ever. 🎂",
-      "Somewhere, a cake is very proud of itself today. 🍰",
-      "Everyone gets a birthday. Not everyone gets you. 🌟",
-      "Tap again — I've got more. 😉"
-    ];
-
-    /* a quiet hello, once, a moment after the page settles */
-    setTimeout(() => toast("Made just for you, Diyu ❤️"), 1400);
-
-
-    let lineIndex = 0;
-
-    function surprise() {
-      toast(LINES[lineIndex % LINES.length]);
-      lineIndex++;
-      confetti(18);
-    }
-
-  </script>
-
+  <!-- ═════ CATEGORIES ═════ -->
+  <section class="sec sec--cats" id="categories">
+    <div class="wrap">
+      <header class="sechead reveal">
+        <p class="eyebrow"><span class="num">01</span>The counter</p>
+        <h2 class="sechead__h">Four things we have always made well</h2>
+      </header>
+      <div class="cats">
+        <a class="cat reveal" href="#shop" data-cat="Sweets" style="--d:.04s">
+          <span class="cat__img"><img src="assets/images/p-assorted-kaju-bites.jpg" alt="Assorted Indian sweets" width="900" height="900" loading="lazy" decoding="async"></span>
+          <span class="cat__body">
+            <span class="cat__n">Sweets</span>
+            <span class="cat__d">Timeless Indian mithai made for every celebration.</span>
+            <span class="cat__go">Explore <svg viewBox="0 0 24 24" class="ico-xs" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </span>
+        </a>
+        <a class="cat reveal" href="#shop" data-cat="Farsan" style="--d:.1s">
+          <span class="cat__img"><img src="assets/images/p-butter-bhakharwadi.jpg" alt="Butter bhakharwadi spirals" width="900" height="900" loading="lazy" decoding="async"></span>
+          <span class="cat__body">
+            <span class="cat__n">Farsan</span>
+            <span class="cat__d">Classic Gujarati savouries with unmistakable flavour.</span>
+            <span class="cat__go">Explore <svg viewBox="0 0 24 24" class="ico-xs" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </span>
+        </a>
+        <a class="cat reveal" href="#shop" data-cat="Khakhra" style="--d:.16s">
+          <span class="cat__img"><img src="assets/images/p-khakhra-3.jpg" alt="Khakhra with chilli" width="900" height="900" loading="lazy" decoding="async"></span>
+          <span class="cat__body">
+            <span class="cat__n">Khakhra</span>
+            <span class="cat__d">Crisp, hand-roasted Gujarati favourites.</span>
+            <span class="cat__go">Explore <svg viewBox="0 0 24 24" class="ico-xs" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </span>
+        </a>
+        <a class="cat reveal" href="#shop" data-cat="Dry Fruits" style="--d:.22s">
+          <span class="cat__img"><img src="assets/images/p-roasted-khari-kaju.jpg" alt="Roasted cashews" width="900" height="900" loading="lazy" decoding="async"></span>
+          <span class="cat__body">
+            <span class="cat__n">Dry Fruits</span>
+            <span class="cat__d">Roasted without oil — for gifting and everyday indulgence.</span>
+            <span class="cat__go">Explore <svg viewBox="0 0 24 24" class="ico-xs" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ HERITAGE ═════ -->
+  <section class="sec sec--heritage" id="heritage">
+    <div class="wrap heritage">
+      <figure class="heritage__art reveal">
+        <img src="assets/images/heritage-main.jpg" alt="Sweet makers shaping mithai by hand" width="1100" height="1450" loading="lazy" decoding="async">
+        <figcaption class="repl">Replace with official Sukhadia family / kitchen photography</figcaption>
+        <span class="heritage__stat">
+          <em>6</em>
+          <span>generations<br>of the same trade</span>
+        </span>
+      </figure>
+      <div class="heritage__copy">
+        <p class="eyebrow reveal"><span class="num">02</span>Our story</p>
+        <h2 class="sechead__h reveal" style="--d:.05s">A tradition passed down<br>through generations</h2>
+        <div class="rich reveal" style="--d:.1s">
+          <p>Sukhadia began in <strong>Khambhat</strong> — the old port town on the Gulf of Cambay in Anand district — where our family built its name making Indian sweets, snacks and namkeen.</p>
+          <p>In <strong>1996</strong> the family moved the business to <strong>Vadodara</strong>, and it has been run here ever since. Today it is looked after by <strong>Ashok Sukhadia</strong> and <strong>Mehul Sukhadia</strong>, the latest of six generations to stand behind the same counter.</p>
+          <p class="rich__pull">“Each sweet &amp; snack lovingly crafted to bring back memories and make new ones.”</p>
+        </div>
+        <ol class="tl reveal" style="--d:.15s">
+          <li class="tl__i">
+            <span class="tl__dot" aria-hidden="true"></span>
+            <span class="tl__yr">Khambhat</span>
+            <span class="tl__tx">Where the family name was made, on the Gulf of Cambay.</span>
+          </li>
+          <li class="tl__i">
+            <span class="tl__dot" aria-hidden="true"></span>
+            <span class="tl__yr">1996 · Vadodara</span>
+            <span class="tl__tx">The business moves to Baroda and puts down new roots.</span>
+          </li>
+          <li class="tl__i tl__i--now">
+            <span class="tl__dot" aria-hidden="true"></span>
+            <span class="tl__yr">Today · Alkapuri</span>
+            <span class="tl__tx">Ashok &amp; Mehul Sukhadia, on R.C Dutt Road.</span>
+          </li>
+        </ol>
+        <a class="lnk reveal" style="--d:.2s" href="#parrot">Read the parrot story
+          <svg viewBox="0 0 24 24" class="ico-xs" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ PARROT STORY ═════ -->
+  <section class="sec sec--parrot" id="parrot">
+    <div class="parrot__pattern" aria-hidden="true"></div>
+    <div class="wrap parrot">
+      <div class="parrot__mark reveal" aria-hidden="true">
+        <svg viewBox="0 0 120 120">
+          <g fill="currentColor">
+            <path d="M56 74c-4 14-16 26-34 34 12-12 20-22 24-36z"/>
+            <ellipse cx="64" cy="62" rx="22" ry="26"/>
+            <circle cx="60" cy="34" r="16"/>
+            <path d="M60 18c-2-8 2-12 8-14-2 6-2 10-3 15z"/>
+            <path d="M45 32c-9 2-13 8-11 14 4-4 8-5 12-5-2-3-2-6-1-9z"/>
+          </g>
+          <path d="M66 48c12 4 16 18 8 32-4-12-6-22-8-32z" fill="rgba(0,0,0,.18)"/>
+          <circle cx="55" cy="30" r="3.4" fill="#5E1220"/>
+          <path d="M56 86v10M70 86v10M30 98h64" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+      <div class="parrot__copy">
+        <p class="eyebrow eyebrow--gold reveal"><span class="num">03</span>The mark</p>
+        <h2 class="sechead__h sechead__h--light reveal" style="--d:.05s">Why there is a parrot<br>on everything we make</h2>
+        <div class="rich rich--light reveal" style="--d:.1s">
+          <p>Our great-grandfather <strong>Jamnadas</strong> was given a parrot by a saint who was a friend of the family. The bird stayed with the Sukhadias for more than <strong>thirty years</strong> and became well known across the neighbourhood in Khambhat.</p>
+          <p>When it died, the family kept its likeness and made it the mark of the business. It has stood for family tradition, quality ingredients and pride ever since — recognised in India and the United States alike.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ BESTSELLERS ═════ -->
+  <section class="sec sec--best" id="bestsellers">
+    <div class="wrap">
+      <header class="sechead sechead--row reveal">
+        <div>
+          <p class="eyebrow"><span class="num">04</span>Most ordered</p>
+          <h2 class="sechead__h">The ones people come back for</h2>
+        </div>
+        <a class="lnk" href="#shop">See all <span data-count="all"></span> products
+          <svg viewBox="0 0 24 24" class="ico-xs" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </header>
+      <div class="grid grid--rail" id="bestGrid"></div>
+    </div>
+  </section>
+
+  <!-- ═════ CRAFT ═════ -->
+  <section class="sec sec--craft">
+    <div class="wrap">
+      <header class="sechead sechead--center reveal">
+        <p class="eyebrow"><span class="num">05</span>How it is made</p>
+        <h2 class="sechead__h">Made with care.<br>Shared with love.</h2>
+      </header>
+      <ol class="craft">
+        <li class="craft__i reveal">
+          <figure class="craft__fig"><img src="assets/images/craft-1.jpg" alt="Nuts, seeds and spices laid out" width="900" height="1200" loading="lazy" decoding="async"><figcaption class="repl">Replace with Sukhadia ingredient photography</figcaption></figure>
+          <span class="craft__n">01</span><h3 class="craft__t">Ingredients</h3>
+          <p class="craft__x">The brand's stated commitment is to premium ingredients and preservative-free recipes.</p>
+        </li>
+        <li class="craft__i reveal" style="--d:.08s">
+          <figure class="craft__fig"><img src="assets/images/craft-2.jpg" alt="Sweets being shaped by hand" width="900" height="1200" loading="lazy" decoding="async"><figcaption class="repl">Replace with Sukhadia kitchen photography</figcaption></figure>
+          <span class="craft__n">02</span><h3 class="craft__t">By hand</h3>
+          <p class="craft__x">Recipes worked out over generations and still made in small batches.</p>
+        </li>
+        <li class="craft__i reveal" style="--d:.16s">
+          <figure class="craft__fig"><img src="assets/images/craft-3.jpg" alt="Ghee being poured" width="900" height="1200" loading="lazy" decoding="async"><figcaption class="repl">Replace with Sukhadia production photography</figcaption></figure>
+          <span class="craft__n">03</span><h3 class="craft__t">Finished</h3>
+          <p class="craft__x">Set, cut and finished the way each sweet is meant to be served.</p>
+        </li>
+        <li class="craft__i reveal" style="--d:.24s">
+          <figure class="craft__fig"><img src="assets/images/craft-4.jpg" alt="Sweets arranged at the counter" width="900" height="1200" loading="lazy" decoding="async"><figcaption class="repl">Replace with Sukhadia packaging photography</figcaption></figure>
+          <span class="craft__n">04</span><h3 class="craft__t">To your table</h3>
+          <p class="craft__x">Boxed at the counter in Alkapuri — or sent to family further away.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ═════ SHOP / DISCOVERY ═════ -->
+  <section class="sec sec--shop" id="shop">
+    <div class="wrap">
+      <header class="sechead reveal">
+        <p class="eyebrow"><span class="num">06</span>The full range</p>
+        <h2 class="sechead__h">Find what you're craving</h2>
+      </header>
+
+      <div class="tools reveal">
+        <div class="tools__search">
+          <svg viewBox="0 0 24 24" class="ico-sm" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input type="search" id="fSearch" placeholder="Search products…" aria-label="Search products">
+        </div>
+        <div class="tools__tabs" role="tablist" aria-label="Filter by category">
+          <button class="tab is-on" role="tab" aria-selected="true" data-cat="all">All</button>
+          <button class="tab" role="tab" aria-selected="false" data-cat="Sweets">Sweets</button>
+          <button class="tab" role="tab" aria-selected="false" data-cat="Farsan">Farsan</button>
+          <button class="tab" role="tab" aria-selected="false" data-cat="Khakhra">Khakhra</button>
+          <button class="tab" role="tab" aria-selected="false" data-cat="Dry Fruits">Dry Fruits</button>
+        </div>
+        <div class="tools__sort">
+          <label for="fSort" class="vh">Sort products</label>
+          <select id="fSort">
+            <option value="featured">Featured</option>
+            <option value="popular">Most popular</option>
+            <option value="asc">Price: low to high</option>
+            <option value="desc">Price: high to low</option>
+            <option value="az">Name: A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="count" id="fCount" aria-live="polite">Showing 34 products</p>
+      <div class="grid" id="shopGrid"></div>
+      <div class="empty" id="fEmpty" hidden>
+        <p class="empty__t">Nothing matched that.</p>
+        <p class="empty__x">Try a different spelling, or browse everything.</p>
+        <button class="btn btn--ghost" id="fReset">Clear filters</button>
+      </div>
+      <p class="note note--center">Weight options are shown as a demo. Listed price is the 250 g price from sukhadiafoods.com; 500 g and 1 kg are calculated for this concept and must be confirmed by Sukhadia Foods.</p>
+    </div>
+  </section>
+
+  <!-- ═════ WHY ═════ -->
+  <section class="sec sec--why">
+    <div class="wrap">
+      <header class="sechead sechead--center reveal">
+        <p class="eyebrow"><span class="num">07</span>Why Sukhadia</p>
+        <h2 class="sechead__h">Reasons that are actually ours</h2>
+      </header>
+      <div class="whys">
+        <article class="why reveal">
+          <span class="why__i" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 8.3l5-.7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </span>
+          <h3 class="why__t">Six generations</h3>
+          <p class="why__x">One family, one trade, from Khambhat to Vadodara.</p>
+        </article>
+        <article class="why reveal" style="--d:.06s">
+          <span class="why__i" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 19c3-8 6-12 8-12s5 4 8 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="5" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          </span>
+          <h3 class="why__t">Gujarati at heart</h3>
+          <p class="why__x">Farsan, khakhra and mithai the way Baroda actually eats them.</p>
+        </article>
+        <article class="why reveal" style="--d:.12s">
+          <span class="why__i" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-7-9.6A3.9 3.9 0 0 1 12 9a3.9 3.9 0 0 1 7 2.4C19 16.6 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </span>
+          <h3 class="why__t">Made in small batches</h3>
+          <p class="why__x">Premium ingredients and preservative-free recipes, as the brand states.</p>
+        </article>
+        <article class="why reveal" style="--d:.18s">
+          <span class="why__i" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.6 5.4 3.6 8.5s-1.2 6.1-3.6 8.5c-2.4-2.4-3.6-5.4-3.6-8.5S9.6 5.9 12 3.5z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          </span>
+          <h3 class="why__t">We ship to family abroad</h3>
+          <p class="why__x">International orders are arranged personally over WhatsApp.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ GUJARAT ═════ -->
+  <section class="sec sec--guj">
+    <div class="guj">
+      <div class="guj__media" aria-hidden="true">
+        <img src="assets/images/gujarat-thali.jpg" alt="" width="1800" height="1000" loading="lazy" decoding="async">
+      </div>
+      <div class="wrap guj__inner">
+        <div class="guj__copy reveal">
+          <p class="eyebrow eyebrow--gold"><span class="num">08</span>Where we're from</p>
+          <h2 class="sechead__h sechead__h--light">The taste of Gujarat,<br>wherever you are</h2>
+          <p class="guj__x">Khambhat gave us the recipes. Baroda gave us the counter. What travels is the same thing either way — a box opened at home, and somebody saying <em>this tastes like it should</em>.</p>
+          <div class="guj__places">
+            <figure class="guj__place">
+              <img src="assets/images/vadodara.jpg" alt="Laxmi Vilas Palace, Vadodara" width="1800" height="1000" loading="lazy" decoding="async">
+              <figcaption>Vadodara</figcaption>
+            </figure>
+            <figure class="guj__place">
+              <img src="assets/images/heritage-b.jpg" alt="A traditional Indian sweet shop" width="900" height="900" loading="lazy" decoding="async">
+              <figcaption>The old sweet shop</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ GIFTING ═════ -->
+  <section class="sec sec--gift" id="gifting">
+    <div class="wrap">
+      <header class="sechead sechead--row reveal">
+        <div>
+          <p class="eyebrow"><span class="num">09</span>Gifting</p>
+          <h2 class="sechead__h">Make every celebration sweeter</h2>
+        </div>
+        <span class="tagdemo">Demo concept — boxes to be confirmed by Sukhadia Foods</span>
+      </header>
+      <div class="gifts">
+        <article class="gift gift--wide reveal">
+          <img src="assets/images/gift-1.jpg" alt="Diwali lamps lit for celebration" width="1800" height="1000" loading="lazy" decoding="async">
+          <div class="gift__body">
+            <h3 class="gift__t">Festive gifting</h3>
+            <p class="gift__x">Diwali, Raksha Bandhan, Navratri — assorted boxes built from the sweets people expect.</p>
+            <button class="btn btn--light" data-gift="Festive">Explore gifting</button>
+          </div>
+        </article>
+        <article class="gift reveal" style="--d:.06s">
+          <img src="assets/images/p-assorted-kaju-bites-b.jpg" alt="An assortment of Indian sweets" width="900" height="900" loading="lazy" decoding="async">
+          <div class="gift__body">
+            <h3 class="gift__t">Family celebrations</h3>
+            <p class="gift__x">Weddings, engagements and house blessings.</p>
+            <button class="btn btn--light btn--sm" data-gift="Family">Explore</button>
+          </div>
+        </article>
+        <article class="gift reveal" style="--d:.12s">
+          <img src="assets/images/p-mixed-nuts.jpg" alt="A bowl of mixed dry fruits" width="900" height="900" loading="lazy" decoding="async">
+          <div class="gift__body">
+            <h3 class="gift__t">Corporate gifting</h3>
+            <p class="gift__x">Bulk dry-fruit and mithai boxes for teams and clients.</p>
+            <button class="btn btn--light btn--sm" data-gift="Corporate">Enquire</button>
+          </div>
+        </article>
+        <article class="gift reveal" style="--d:.18s">
+          <img src="assets/images/gift-2.jpg" alt="A lit diya" width="900" height="900" loading="lazy" decoding="async">
+          <div class="gift__body">
+            <h3 class="gift__t">International gifting</h3>
+            <p class="gift__x">Send a box to family abroad — arranged over WhatsApp.</p>
+            <button class="btn btn--light btn--sm" data-gift="International">Enquire</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ INTERNATIONAL ═════ -->
+  <section class="sec sec--intl" id="intl">
+    <div class="wrap intl">
+      <div class="intl__copy reveal">
+        <p class="eyebrow eyebrow--gold"><span class="num">10</span>Beyond India</p>
+        <h2 class="sechead__h sechead__h--light">Missing home?<br>Send a taste of Gujarat.</h2>
+        <p class="intl__x">There is no form for this and no algorithm. For international orders you speak to our team directly on WhatsApp, and we work it out with you.</p>
+        <div class="intl__acts">
+          <a class="btn btn--wa btn--lg" href="https://wa.me/917046164064" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" class="ico-sm" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.9-1c.2-.2.3-.2.6-.1l2 .9c.3.1.5.2.5.3.1.2.1.7-.1 1.1z"/></svg>
+            WhatsApp for international orders
+          </a>
+          <a class="intl__num" href="tel:+917046164064">+91 70461 64064</a>
+        </div>
+        <p class="note note--light">Shipping destinations, timelines and costs are confirmed by the team on WhatsApp — nothing is promised automatically here.</p>
+      </div>
+      <figure class="intl__art reveal">
+        <img src="assets/images/hero-b.jpg" alt="Trays of Indian sweets prepared for a festival" width="900" height="900" loading="lazy" decoding="async">
+        <figcaption class="repl">Replace with official Sukhadia Foods image</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═════ REVIEWS ═════ -->
+  <section class="sec sec--revs">
+    <div class="wrap">
+      <header class="sechead sechead--center reveal">
+        <p class="eyebrow"><span class="num">11</span>In their words</p>
+        <h2 class="sechead__h">What people say at the counter</h2>
+      </header>
+      <div class="revs">
+        <figure class="rev reveal">
+          <span class="rev__q" aria-hidden="true">”</span>
+          <blockquote>Lovely to be here. Great place for shopping for different variety of food products with best quality and trust. Must-Visit place guys</blockquote>
+          <figcaption><span class="rev__n">Umesh Kadam</span><span class="rev__s">Review shown on sukhadiafoods.com</span></figcaption>
+        </figure>
+        <figure class="rev reveal" style="--d:.08s">
+          <span class="rev__q" aria-hidden="true">”</span>
+          <blockquote>Very perfect place for all-purpose farsan and sweet. Food taste is best in the town. The owner is very down to earth, and the staff is cooperative</blockquote>
+          <figcaption><span class="rev__n">Nishit Mehta</span><span class="rev__s">Review shown on sukhadiafoods.com</span></figcaption>
+        </figure>
+        <figure class="rev reveal" style="--d:.16s">
+          <span class="rev__q" aria-hidden="true">”</span>
+          <blockquote>I have been in India for 1 month and this is the only place I have gotten sweets and farsan. Very clean, food displayed well, great customer service</blockquote>
+          <figcaption><span class="rev__n">Zomato reviewer</span><span class="rev__s">Review shown on sukhadiafoods.com</span></figcaption>
+        </figure>
+      </div>
+      <p class="note note--center">These are the three reviews published on the current website, quoted as-is. No ratings have been invented for this concept.</p>
+    </div>
+  </section>
+
+  <!-- ═════ SOCIAL ═════ -->
+  <section class="sec sec--ig">
+    <div class="wrap">
+      <header class="sechead sechead--row reveal">
+        <div>
+          <p class="eyebrow"><span class="num">12</span>The counter, daily</p>
+          <h2 class="sechead__h">Fresh from Alkapuri</h2>
+        </div>
+        <span class="tagdemo">Social handle to be confirmed by Sukhadia Foods</span>
+      </header>
+    </div>
+    <div class="iggrid">
+      <figure class="ig reveal"><img src="assets/images/ig-1.jpg" alt="Jalebi in a bowl" width="700" height="700" loading="lazy" decoding="async"><figcaption class="repl">Replace with real Sukhadia Foods photography</figcaption></figure>
+      <figure class="ig reveal" style="--d:.04s"><img src="assets/images/ig-2.jpg" alt="A Gujarati thali" width="700" height="700" loading="lazy" decoding="async"><figcaption class="repl">Replace with real Sukhadia Foods photography</figcaption></figure>
+      <figure class="ig reveal" style="--d:.08s"><img src="assets/images/ig-3.jpg" alt="Assorted chikki" width="700" height="700" loading="lazy" decoding="async"><figcaption class="repl">Replace with real Sukhadia Foods photography</figcaption></figure>
+      <figure class="ig reveal" style="--d:.12s"><img src="assets/images/ig-5.jpg" alt="Ladoos arranged on a tray" width="700" height="700" loading="lazy" decoding="async"><figcaption class="repl">Replace with real Sukhadia Foods photography</figcaption></figure>
+      <figure class="ig reveal" style="--d:.16s"><img src="assets/images/ig-6.jpg" alt="Peda sweets" width="700" height="700" loading="lazy" decoding="async"><figcaption class="repl">Replace with real Sukhadia Foods photography</figcaption></figure>
+      <figure class="ig reveal" style="--d:.2s"><img src="assets/images/ig-7.jpg" alt="Khakhra varieties" width="700" height="700" loading="lazy" decoding="async"><figcaption class="repl">Replace with real Sukhadia Foods photography</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ═════ NEWSLETTER ═════ -->
+  <section class="sec sec--news">
+    <div class="wrap news">
+      <div class="news__copy reveal">
+        <h2 class="news__h">Stay close to<br>the sweetness</h2>
+        <p class="news__x">Festival batches, seasonal sweets and the things that sell out by noon.</p>
+      </div>
+      <div class="news__form reveal" style="--d:.06s">
+        <form id="newsForm" novalidate>
+          <div class="news__row">
+            <label for="newsEmail" class="vh">Your email address</label>
+            <input type="email" id="newsEmail" placeholder="Your email address" autocomplete="email" aria-describedby="newsMsg">
+            <button class="btn btn--primary" type="submit">Join us</button>
+          </div>
+          <p class="news__msg" id="newsMsg" role="status"></p>
+        </form>
+        <div class="news__or"><span>or</span></div>
+        <a class="btn btn--wa btn--full" href="https://wa.me/917046164064" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" class="ico-sm" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.9-1c.2-.2.3-.2.6-.1l2 .9c.3.1.5.2.5.3.1.2.1.7-.1 1.1z"/></svg>
+          Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</div><!-- /view-shop -->
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--                     VIEW: CHECKOUT                         -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="view" id="view-checkout" hidden>
+  <div class="wrap co">
+    <nav class="co__crumb"><a href="#/shop">Shop</a><span>/</span><strong>Checkout</strong></nav>
+    <div class="co__grid">
+      <div class="co__main">
+        <header class="co__head">
+          <h1 class="co__h">Checkout</h1>
+          <p class="co__sub">Demo checkout — no payment is taken and no data leaves this browser.</p>
+        </header>
+
+        <form id="coForm" novalidate>
+          <fieldset class="co__set">
+            <legend class="co__leg"><span class="co__legn">1</span>Contact</legend>
+            <div class="fgrid">
+              <div class="fld fld--2">
+                <label for="coName">Full name *</label>
+                <input id="coName" name="name" autocomplete="name" placeholder="e.g. Meera Patel">
+                <span class="fld__err"></span>
+              </div>
+              <div class="fld">
+                <label for="coPhone">Mobile number *</label>
+                <input id="coPhone" name="phone" inputmode="numeric" autocomplete="tel" placeholder="10-digit number">
+                <span class="fld__err"></span>
+              </div>
+              <div class="fld">
+                <label for="coEmail">Email *</label>
+                <input id="coEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+                <span class="fld__err"></span>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="co__set">
+            <legend class="co__leg"><span class="co__legn">2</span>Delivery address</legend>
+            <div class="fgrid">
+              <div class="fld fld--2">
+                <label for="coAddr">Address *</label>
+                <input id="coAddr" name="address" autocomplete="street-address" placeholder="Flat / building / street">
+                <span class="fld__err"></span>
+              </div>
+              <div class="fld">
+                <label for="coCity">City *</label>
+                <input id="coCity" name="city" autocomplete="address-level2" placeholder="Vadodara">
+                <span class="fld__err"></span>
+              </div>
+              <div class="fld">
+                <label for="coState">State *</label>
+                <input id="coState" name="state" autocomplete="address-level1" placeholder="Gujarat">
+                <span class="fld__err"></span>
+              </div>
+              <div class="fld">
+                <label for="coPin">PIN code *</label>
+                <input id="coPin" name="pincode" inputmode="numeric" autocomplete="postal-code" placeholder="390007">
+                <span class="fld__err"></span>
+              </div>
+              <div class="fld fld--2">
+                <label for="coNotes">Order notes <span class="fld__opt">(optional)</span></label>
+                <textarea id="coNotes" name="notes" rows="2" placeholder="Less sugar, gift wrap, delivery time…"></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="co__set">
+            <legend class="co__leg"><span class="co__legn">3</span>Payment <span class="pill pill--demo">Demo</span></legend>
+            <div class="pays">
+              <label class="pay">
+                <input type="radio" name="payment" value="Cash on Delivery" checked>
+                <span class="pay__box">
+                  <span class="pay__t">Cash on Delivery</span>
+                  <span class="pay__x">Pay when the order reaches you.</span>
+                </span>
+              </label>
+              <label class="pay">
+                <input type="radio" name="payment" value="Online Payment">
+                <span class="pay__box">
+                  <span class="pay__t">Online Payment</span>
+                  <span class="pay__x">UPI / card — simulated for this demo.</span>
+                </span>
+              </label>
+            </div>
+            <p class="note">No payment gateway is connected. Placing an order here only writes a record to this browser's local storage so the admin dashboard can be demonstrated.</p>
+          </fieldset>
+
+          <button class="btn btn--primary btn--lg btn--full" type="submit" id="coPlace">
+            Place order
+            <svg viewBox="0 0 24 24" class="ico-sm" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+      </div>
+
+      <aside class="co__side">
+        <div class="co__card">
+          <h2 class="co__cardh">Your order</h2>
+          <div id="coItems" class="co__items"></div>
+          <dl class="totals" id="coTotals"></dl>
+          <a class="lnk lnk--sm" href="#/shop">← Continue shopping</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--                      VIEW: SUCCESS                         -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="view" id="view-success" hidden>
+  <div class="wrap succ" id="succBody"></div>
+</div>
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="ftr" id="contact">
+  <div class="wrap">
+    <div class="ftr__top">
+      <div class="ftr__brand">
+        <span class="brand__mark brand__mark--lg" aria-hidden="true">
+          <svg viewBox="0 0 120 120">
+            <g fill="currentColor"><path d="M56 74c-4 14-16 26-34 34 12-12 20-22 24-36z"/><ellipse cx="64" cy="62" rx="22" ry="26"/><circle cx="60" cy="34" r="16"/><path d="M60 18c-2-8 2-12 8-14-2 6-2 10-3 15z"/><path d="M45 32c-9 2-13 8-11 14 4-4 8-5 12-5-2-3-2-6-1-9z"/></g>
+            <path d="M66 48c12 4 16 18 8 32-4-12-6-22-8-32z" fill="rgba(0,0,0,.2)"/>
+            <circle cx="55" cy="30" r="3.4" fill="#5E1220"/>
+            <path d="M56 86v10M70 86v10M30 98h64" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          </svg>
+        </span>
+        <p class="ftr__tag">Sweets, farsan and khakhra from a family that has been making them for six generations.</p>
+        <address class="ftr__addr">
+          Ground Floor, Bihari Apartments,<br>
+          Welcome Hotel Lane, R.C Dutt Road,<br>
+          Alkapuri, Vadodara, Gujarat 390007
+        </address>
+        <p class="ftr__ct">
+          <a href="tel:+917046164064">+91 70461 64064</a>
+          <a href="tel:+912652342872">0265 2342872</a>
+          <a href="mailto:sukhadiasweetsbaroda@gmail.com">sukhadiasweetsbaroda@gmail.com</a>
+        </p>
+      </div>
+
+      <nav class="ftr__col" aria-label="Shop">
+        <h3 class="ftr__h">Shop</h3>
+        <a href="#shop" data-cat="Sweets">Sweets</a>
+        <a href="#shop" data-cat="Farsan">Farsan</a>
+        <a href="#shop" data-cat="Khakhra">Khakhra</a>
+        <a href="#shop" data-cat="Dry Fruits">Dry Fruits</a>
+        <a href="#bestsellers">Bestsellers</a>
+      </nav>
+
+      <nav class="ftr__col" aria-label="About">
+        <h3 class="ftr__h">About</h3>
+        <a href="#heritage">Our story</a>
+        <a href="#parrot">The parrot mark</a>
+        <a href="#gifting">Gifting</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <nav class="ftr__col" aria-label="Customer care">
+        <h3 class="ftr__h">Customer care</h3>
+        <button class="ftr__lnkbtn" data-page-soon="FAQs">FAQs</button>
+        <button class="ftr__lnkbtn" data-page-soon="Shipping">Shipping</button>
+        <button class="ftr__lnkbtn" data-page-soon="Returns">Returns</button>
+        <button class="ftr__lnkbtn" data-page-soon="Privacy Policy">Privacy policy</button>
+        <button class="ftr__lnkbtn" data-page-soon="Terms &amp; Conditions">Terms &amp; conditions</button>
+      </nav>
+
+      <nav class="ftr__col" aria-label="Connect">
+        <h3 class="ftr__h">Connect</h3>
+        <a href="https://wa.me/917046164064" target="_blank" rel="noopener">WhatsApp</a>
+        <button class="ftr__lnkbtn" data-page-soon="Instagram">Instagram</button>
+        <button class="ftr__lnkbtn" data-page-soon="Facebook">Facebook</button>
+        <p class="ftr__soon">Social profile links to be confirmed by Sukhadia Foods.</p>
+      </nav>
+    </div>
+
+    <div class="ftr__hrs">
+      <span>Shop timings, holidays and delivery areas — <em>[to be confirmed by Sukhadia Foods]</em></span>
+    </div>
+
+    <div class="ftr__bot">
+      <p>© <span id="yr">2026</span> Sukhadia Foods. All rights reserved.</p>
+      <p class="ftr__demo">
+        <button class="ftr__lnkbtn ftr__toggle" id="replToggle" aria-pressed="false">Show asset notes</button>
+        <a href="admin.html">Admin dashboard →</a>
+        <span class="ftr__badge">Concept redesign demo</span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════ CART DRAWER ══════════ -->
+<aside class="cart" id="cart" aria-hidden="true">
+  <div class="cart__panel" role="dialog" aria-modal="true" aria-labelledby="cartTtl">
+    <header class="cart__top">
+      <h2 class="cart__ttl" id="cartTtl">Your basket <span id="cartQty">(0)</span></h2>
+      <button class="iconbtn" id="cartClose" aria-label="Close basket">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+    <div class="cart__body" id="cartBody"></div>
+    <footer class="cart__foot" id="cartFoot" hidden>
+      <dl class="totals" id="cartTotals"></dl>
+      <p class="cart__ship" id="cartShip"></p>
+      <a class="btn btn--primary btn--full btn--lg" href="#/checkout" id="cartCheckout">Proceed to checkout</a>
+      <button class="btn btn--quiet btn--full" id="cartCont">Continue shopping</button>
+    </footer>
+  </div>
+  <div class="cart__scrim" data-close-cart></div>
+</aside>
+
+<!-- ══════════ QUICK VIEW ══════════ -->
+<div class="qv" id="qv" aria-hidden="true">
+  <div class="qv__box" role="dialog" aria-modal="true" aria-labelledby="qvName">
+    <button class="qv__x iconbtn" id="qvClose" aria-label="Close quick view">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+    </button>
+    <div class="qv__inner" id="qvInner"></div>
+  </div>
+  <div class="qv__scrim" data-close-qv></div>
+</div>
+
+<!-- ══════════ MOBILE BOTTOM BAR ══════════ -->
+<nav class="mbar" id="mbar" aria-label="Quick actions">
+  <a class="mbar__i" href="#top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><span>Home</span></a>
+  <a class="mbar__i" href="#shop"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>Shop</span></a>
+  <a class="mbar__i mbar__i--wa" href="https://wa.me/917046164064" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.9-1c.2-.2.3-.2.6-.1l2 .9c.3.1.5.2.5.3.1.2.1.7-.1 1.1z"/></svg><span>WhatsApp</span></a>
+  <button class="mbar__i" id="mbarCart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1.1 11.2a1.6 1.6 0 0 1-1.6 1.4H8.7a1.6 1.6 0 0 1-1.6-1.4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.2 8V6.4a2.8 2.8 0 0 1 5.6 0V8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>Basket</span><span class="badge badge--m" id="mbarBadge" hidden>0</span></button>
+</nav>
+
+<button class="totop" id="toTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<script src="script.js"></script>
 </body>
-
 </html>
